@@ -115,7 +115,8 @@ end
 		print ("正在启动，请稍候……")
 		grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
 		
-		elseif func == "wimbootpc" then
-		wimbootpc(netwim)
+		--efiboot.sh
+		elseif func == "efiboot" then
+		grub.script ("configfile $prefix/efiboot.sh")
 		end
 
