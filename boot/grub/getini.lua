@@ -41,19 +41,18 @@ function wimbootpc(file)
             getini(j)
             grub.script ("set lang=en_US; terminal_output console; enable_progress_indicator=1; loopback wimboot /ms/wimboot.gz; linux16 (wimboot)/wimboot; initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:(http)" .. file)
 
-	end
+end
 
-function wimbootefi(file)
+function wimbootefi()
             j = grub.getenv ("j")
             getini(j)
-            grub.script ("set lang=en_US; terminal_output console; loopback wimboot ${prefix}/ms/wimboot.gz; wimboot @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:bcd:(wimboot)/bcd @:boot.sdi:(wimboot)/boot.sdi @:boot.wim:(http)" .. file)
-	end
+            grub.script ("set lang=en_US; terminal_output console; loopback wimboot ${prefix}/ms/wimboot.gz; wimboot @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:bcd:(wimboot)/bcd @:boot.sdi:(wimboot)/boot.sdi @:boot.wim:(http)$setupwim")
+end
 
-function mapiso(file)
+function mapiso()
             j = grub.getenv ("j")
             getini(j)
-            grub.script ("set lang=en_US; terminal_output console; echo loading iso....; map --mem (http)" .. file)
-
+            grub.script ("set lang=en_US; terminal_output console; echo loading iso....; map --mem (http)$setupiso")
 end
 
 
@@ -134,11 +133,9 @@ end
 		elseif func == "default" then
 		getini(0)
 	    elseif func == "wimbootefi" then
-		setupwim = grub.getenv ("setupwim")
-		wimbootefi(setupwim)
+		wimbootefi()
 		elseif func == "mapiso" then
-		setupiso = grub.getenv ("setupiso")
-		mapiso(setupiso)
+		mapiso()
 		elseif func == "wimbootpc" then
 		wimbootpc(netwim)
 		end
