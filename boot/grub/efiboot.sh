@@ -18,8 +18,7 @@
 
 ##网络安装加入开始	
 source $prefix/var.sh; 
-
-
+set enable_progress_indicator=1;
 
 loopback -m wimboot ${prefix}/ms/wimboot.gz;
 
@@ -56,7 +55,7 @@ then
 		  
 elif regexp '^[iI][sS][Oo]$' "${netiso_ext}";
 then
-  echo "loading (http)${netiso_file} ......";
+  echo "enable_progress_indicator=1; loading (http)${netiso_file} ......";
   map --mem "(http)${netiso_file}";
 
 elif regexp '^[wW][iI][mM]$' "${setupwim_ext}";

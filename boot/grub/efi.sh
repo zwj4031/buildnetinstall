@@ -95,7 +95,7 @@ menuentry "1.立即启动[模式:${bootmode}][设备:${net_default_server}][超�
 
 menuentry "2.安装其它系统包" --class nt6 {
    #background_image ${prefix}/themes/qq/qq.png; getkey; configfile ${prefix}/menu.sh;
-  unset netwim_file; unset netiso_file; unset setupwim; unset setupiso; configfile $prefix/loadlist.sh;
+  configfile $prefix/loadlist.sh;
 }
 
 
