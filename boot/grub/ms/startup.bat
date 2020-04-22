@@ -113,7 +113,7 @@ ipconfig
 echo installiso=%isopath%
 echo httptimeout=%httptimeout%
 ping 127.0 -n 20 >nul
-if exist %command% %command% %xml%
+if exist Q:\setup.exe %command% %xml%
 if not exist Q:\setup.exe cmd /k
 exit
 :::::::::::::::::::::::::::::以下是p2p

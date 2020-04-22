@@ -11,12 +11,20 @@ then
 fi
 mkdir build
 cp -r boot build/
-cp arch/x64-pxe/wimboot.gz build/boot/grub/ms/
+mkdir build/boot/grub/x86_64-efi/
+modules=$(cat arch/x64-pxe/builtin.txt)
+modlist="$(cat arch/x64-pxe/optional.lst)"
+
+for modules in $modlist
+do
+    echo "copying ${modules}.mod"
+    #cp grub/x86_64-efi/${modules}.mod build/boot/grub/x86_64-efi/
+done
 echo "x86_64-efi"
+#cp arch/x64-pxe/optional.lst build/boot/grub/insmod.lst
 cd build
 find ./boot | cpio -o -H newc > ../build/memdisk.cpio
 cd ..
-modules=$(cat arch/x64-pxe/builtin.txt)
 grub-mkimage -m build/memdisk.cpio -d grub/x86_64-efi -p "(memdisk)/boot/grub" -c arch/x64-pxe/config.cfg -o netinstall.efi -O x86_64-efi $modules
 
 if [ -d "build" ]
@@ -36,7 +44,6 @@ do
     cp grub/i386-pc/${modules}.mod build/boot/grub/i386-pc/
 done
 cp arch/legacy-pxe/insmod.lst build/boot/grub/
-cp arch/legacy-pxe/wimboot.gz build/boot/grub/ms/
 cd build
 find ./boot | cpio -o -H newc > ../netinstallcore
 cd ..
@@ -56,4 +63,3 @@ cp netinstall.ini tftpboot/app/winsetup/
 rm -rf build
 cp tftpboot/app/winsetup/netinstallcore /mnt/s/netinstall-master/app/winsetup/
 cp tftpboot/netinstall.efi /mnt/s/netinstall-master/
-

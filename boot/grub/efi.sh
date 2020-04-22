@@ -16,29 +16,23 @@
 #UEFI LoadOptions
 unset grub_frame_speed;
 export theme=${prefix}/themes/slack/theme.txt;
-
+set bootmode="不支持";
 source $prefix/var.sh;
 
-set bootmode="不支持";
+
 if getargs --value "netwim" netwim_file;
 then
-export bootmode="网启wim";
+export bootmode="网络启wim";
 else
 unset netwim_file;
 fi;
+
 
 if getargs --value "netiso" netiso_file;
 then
 export bootmode="网启iso";
 else
 unset netiso_file;
-fi;
-
-if getargs --value "netwim" netwim_file;
-then
-export bootmode="网启wim";
-else
-unset netwim_file;
 fi;
 
 if getargs --value "file" run_file;
@@ -77,21 +71,31 @@ else
 unset autounattend_file;
 fi;
 
-if getargs --value "command" command_file;
+if [ -z "$setupiso" ]; 
 then
-export command=$command_file;
+export bootmode="网络启动wim"
+export netwim_file=$setupwim
+else  
+unset netwim_file
+fi;
+
+if [ -z "$setupwim" ]; 
+then
+export bootmode="网络启动iso"
+export netiso_file=$setupiso
 else
-unset command_file;
+unset netiso_file
 fi;
 
 
 menuentry "1.立即启动[模式:${bootmode}][设备:${net_default_server}][超时:$httptimeout]" --class nt6 {
-    configfile ${prefix}/efiboot.sh;
+
+  configfile ${prefix}/efiboot.sh;
 }
 
 menuentry "2.安装其它系统包" --class nt6 {
    #background_image ${prefix}/themes/qq/qq.png; getkey; configfile ${prefix}/menu.sh;
-  configfile $prefix/loadlist.sh;
+  unset netwim_file; unset netiso_file; unset setupwim; unset setupiso; configfile $prefix/loadlist.sh;
 }
 
 
@@ -101,7 +105,7 @@ load_qq; configfile $prefix/qrcode.sh;
 }
 
 
-menuentry "本地启动文件:${run_file} ${iso_file}" --class wim {
+menuentry "本地启动文件(优先):${netwim}${netiso}${netefi}${run_file} ${iso_file}" --class wim {
     configfile ${prefix}/efiboot.sh;
 }
 

@@ -26,6 +26,14 @@ else
 set bootmode="不支持";
 fi;
 
+if netwim != "";
+then
+set netwim_file=$netwim;
+export bootmode="网络启动wim";
+else
+unset netwim_file
+fi;
+
 menuentry "1.立即启动[模式:${bootmode}][设备:${net_default_server}][超时:$httptimeout]" --class nt6 {
     configfile ${prefix}/legacyboot.sh;
 }
@@ -41,7 +49,7 @@ load_qq; configfile $prefix/qrcode.sh;
 }
 
 
-menuentry "本地启动文件:${run_file} " --class wim {
+menuentry "本地启动文件(优先):${netwim}${netiso}${netefi}${run_file} ${iso_file}" --class wim {
     configfile ${prefix}/legacyboot.sh;
 }
 

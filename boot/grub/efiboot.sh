@@ -18,6 +18,9 @@
 
 ##网络安装加入开始	
 source $prefix/var.sh; 
+
+
+
 loopback -m wimboot ${prefix}/ms/wimboot.gz;
 
 if regexp '^[eE][fF][iI]$' "${run_ext}";
@@ -49,6 +52,12 @@ then
           @:boot.sdi:(wimboot)/boot.sdi \
 		  @:boot.wim:"${run_file}";		  
 ###############添加自煮研发的
+
+		  
+elif regexp '^[iI][sS][Oo]$' "${netiso_ext}";
+then
+  echo "loading (http)${netiso_file} ......";
+  map --mem "(http)${netiso_file}";
 
 elif regexp '^[wW][iI][mM]$' "${setupwim_ext}";
 then
@@ -94,9 +103,7 @@ then
           @:bcd:(wimboot)/bcd \
           @:boot.sdi:(wimboot)/boot.sdi \
 		  @:boot.wim:"(http)/${netwim_file}";
-elif regexp '^[iI][sS][Oo]$' "${netiso_ext}";
-then
-  map --mem "(http)${netiso_file}";
+
  
 elif regexp '^[wW][iI][mM]$' "${netwim_ext}";
 then
@@ -106,10 +113,11 @@ then
           @:bcd:(wimboot)/bcd \
           @:boot.sdi:(wimboot)/boot.sdi \
 		  @:boot.wim:"(http)/${netwim_file}";
-elif regexp '^[iI][sS][Oo]$' "${netiso_ext}";
-then
-		  map ${run_mem} "(http)${netiso_file}";  
+		  
 else
+
+		  
+
  #############完成研发 
           echo "错误: 不支持的文件类型!";
   exit;

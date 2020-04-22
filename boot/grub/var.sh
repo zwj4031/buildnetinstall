@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Grub2-FileManager.  If not, see <http://www.gnu.org/licenses/>.
 #strconv --utf8 --set=name "${name}";
-set func=default; lua $prefix/getini.lua
+
 if [ "$grub_platform" = "efi" ]; then
 	export bootmode=efi.sh;	 
 	export bootmenu=efiboot.sh;
@@ -28,18 +28,36 @@ if [ -z "$serverip" ];
 then
     export serverip=${net_default_server}
 	save_env -f ${prefix}/ms/null.cfg serverip 
-	 
 else	
     save_env -f ${prefix}/ms/null.cfg serverip 
-
 fi;
+
+function checkfile {
+if [ -z "$setupiso" ]; 
+then
+export bootmode="网络启动wim"
+export netwim_file=$setupwim
+else  
+unset netwim_file
+fi;
+
+if [ -z "$setupwim" ]; 
+then
+export bootmode="网络启动iso"
+export netiso_file=$setupiso
+else
+unset netiso_file
+fi;
+}
+
+
+
     set installiso=http://${serverip}${setupiso};
     save_env -f ${prefix}/ms/null.cfg installiso
 	
 function efivar {
-	getargs --value "proxydhcp" proxydhcp;
+   	getargs --value "proxydhcp" proxydhcp;
 	getargs --value "httptimeout" httptimeout;
-	getargs --value "command" command;
 	getargs --key "mem" run_mem;
 	getargs --value "autounattend" autounattend_file;
 	regexp --set=1:run_ext '^.*\.(.*$)' "${run_file}";
@@ -48,11 +66,13 @@ function efivar {
 	regexp --set=1:netiso_ext '^.*\.(.*$)' "${netiso_file}";
 	regexp --set=1:autounattend_ext '^.*\.(.*$)' "${autounattend_file}";
 	echo "启动文件:${run_file}${iso_file}";
+	echo "执行文件: ${command}"
 	echo "wim文件: ${setupwim}${netwim_file}";
 	echo "iso文件: ${setupiso}${netiso_file}";
 	echo "启动服务器: ${serverip}"
 	echo "mem: ${run_mem}"
 	echo "应答文件: ${autounattend}"
+	
 	export net_default_server="${proxydhcp}";
 if [ "${run_mem}" = "1" ];
 then

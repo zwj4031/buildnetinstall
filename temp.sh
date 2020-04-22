@@ -56,4 +56,4 @@ cp netinstall.ini tftpboot/app/winsetup/
 rm -rf build
 cp tftpboot/app/winsetup/netinstallcore /mnt/s/netinstall-master/app/winsetup/
 cp tftpboot/netinstall.efi /mnt/s/netinstall-master/
-
+sudo rm -rf tftpboot
