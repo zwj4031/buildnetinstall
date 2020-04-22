@@ -1,0 +1,8 @@
+# Global Property
+title-text: "Press enter to return"
+title-color: "#000000"
+message-color: "#333333"
+message-bg-color: "#f2f2f2"
+desktop-color: "#000000"
+desktop-image: "ewm.png"
+#terminal-box: "qq_*.jpg"
