@@ -3,11 +3,10 @@ wpeinit
 @echo renew netcard......
 ipconfig /renew >nul
 @echo ok.
-@echo disablefirewallâ€¦â€¦
+@echo disablefirewall¡­¡­
 wpeutil disablefirewall
 MODE CON COLS=56 LINES=10
 cd /d X:\windows\system32
-
 	set arch=x64
 if %PROCESSOR_ARCHITECTURE% == x86 (
 	set arch=x86
@@ -19,14 +18,14 @@ copy /y %cd%\%arch%.wcs %cd%\tool.wcs
 copy /y %cd%\pecmd%arch%.exe %cd%\pecmd.exe
 copy /y %cd%\cgi%arch%.exe %cd%\cgi.exe
 copy /y %cd%\aria2c%arch%.exe %cd%\aria2c.exe
-::copy pecmd%arch%.exe %cd%\pecmd.exe /y
-::%cd%\pecmd %arch%.wcs
-for %%i in (name installiso setupiso httptimeout command serverip checkwim silent p2p formatmbr formatgpt index) do (
+sc create xFsRedirApp binpath= "%~dp0\xFsRedir%arch%.exe -server" displayname= "Fanxiushu File System Redirect Directory" start= auto
+
+
+for %%i in (name installiso smb smbpath smbuser smbpass setupiso httptimeout command serverip checkwim silent p2p formatmbr formatgpt index) do (
 for /f "tokens=1,2 delims==" %%a in ('find "%%i=" null.cfg') do set %%i=%%b
 )
 )
 set isopath=%installiso%
-
 echo name=%name%
 echo installiso=%installiso%
 echo setupiso=%setupiso% 
@@ -38,18 +37,80 @@ echo p2p=%p2p%
 echo formatmbr=%formatmbr%
 echo formatgpt=%formatgpt%
 echo index=%index%
-:åˆ¤æ–­p2på€¼
+echo smb=%smb%
+
+:ÅÐ¶ÏformatmbrÖµ
+if defined formatmbr (
+    aria2c http://%serverip%/app/winsetup/format.bat.mbr -d X:\ >nul
+	if exist X:\format.bat del /q X:\format.bat
+	ren X:\format.bat.mbr format.bat
+	call X:\format.bat
+) else set formatmbr=
+:ÅÐ¶ÏformatgptÖµ
+if defined formatgpt (
+    aria2c http://%serverip%/app/winsetup/format.bat.gpt -d X:\ >nul
+	if exist X:\format.bat del /q X:\format.bat
+	ren X:\format.bat.gpt format.bat
+	call X:\format.bat
+) else set formatgpt=
+
+:ÅÐ¶ÏhttptimeoutÖµ
+if defined httptimeout (
+    echo %httptimeout%
+) else set httptimeout=
+
+:ÅÐ¶ÏcommandÖµ
+if defined command (
+    echo %command%
+) else set command=Q:\setup.exe
+
+
+:ÅÐ¶ÏcheckwimÖµ
+if defined checkwim (
+    echo %checkwim%
+) else set checkwim=I:\ghos\system.wim
+
+:ÅÐ¶ÏslientÖµ
+if defined slient (
+    echo %slient%
+) else set slient=1
+
+:ÅÐ¶ÏindexÖµ
+if defined index (
+    echo %index%
+) else set index=
+
+
+:Éú³ÉcgiµÄÅäÖÃÎÄ¼þ
+:buildcgi
+(
+echo [operation]
+echo action=restore
+echo silent=%silent%
+echo [source]
+echo %checkwim%^|%index%
+echo [destination]
+echo DriveLetter = system
+echo [miscellaneous]
+echo format = 1
+echo fixboot=auto
+echo shutdown=2
+)>"%temp%\system.ini"
+
+
+:ÅÐ¶ÏsmbÖµ
+if defined smb (
+    goto smb
+) else set smb=
+
+:ÅÐ¶Ïp2pÖµ
 if defined p2p (
-    goto startp2p
-) else set p2p=""
+   goto startp2p
+) else set p2p=
 
-::%~dp0\7z%arch% x xfscient.7z -o%~dp0\ -y
 
-echo ok..
 
-::net stop "Fanxiushu File System Redirect Directory"
-sc create xFsRedirApp binpath= "%~dp0\xFsRedir%arch%.exe -server" displayname= "Fanxiushu File System Redirect Directory" start= auto
-::sc create xfs_redir binpath= "%~dp0\xfs_redir.sys" displayname= "xfs_redir" start= auto
+:httpiso
 echo []>%~dp0\xFsRedir.ini
 cls
 echo building config....
@@ -66,10 +127,14 @@ echo image_url=%isopath%
 echo user=
 echo pwd=
 echo nfs_mountdir=
-:::ä¸‹é¢çš„æ˜¯çº¿ç¨‹æ•°
+:::ÏÂÃæµÄÊÇÏß³ÌÊý
 echo threadcount=55
 echo transtimeout=60
 )>>%~dp0\xFsRedir.ini
+goto startmount
+
+
+:startmount
 ping 127.0 -n 2 >nul
 net start "Fanxiushu File System Redirect Directory"
 
@@ -80,52 +145,15 @@ if exist autounattend.xml (
 )
 cls
 
-:åˆ¤æ–­httptimeoutå€¼
-if defined httptimeout (
-    echo %httptimeout%
-) else set httptimeout=
-
-:åˆ¤æ–­commandå€¼
-if defined command (
-    echo %command%
-) else set command=Q:\setup.exe
-
-
-:åˆ¤æ–­checkwimå€¼
-if defined checkwim (
-    echo %checkwim%
-) else set checkwim=I:\ghos\system.wim
-
-:åˆ¤æ–­slientå€¼
-if defined slient (
-    echo %slient%
-) else set slient=1
-
-:åˆ¤æ–­indexå€¼
-if defined index (
-    echo %index%
-) else set index=""
-
-:ç”Ÿæˆcgiçš„é…ç½®æ–‡ä»¶
-(
-echo [operation]
-echo action=restore
-echo silent=%silent%
-echo [source]
-echo %checkwim%^|%index%
-echo [destination]
-echo DriveLetter = system
-echo [miscellaneous]
-echo format = 1
-echo fixboot=auto
-echo shutdown=2
-)>"%temp%\system.ini"
 
 :setupwin
 echo wait.................
 ipconfig
-echo installiso=%isopath%
-echo httptimeout=%httptimeout%
+echo installiso:%isopath%
+echo httptimeout:%httptimeout%
+echo formatmbr: %formatmbr%
+echo formatgpt: %formatgpt%
+echo silent:%silent%
 ping 127.0 -n %httptimeout% >nul
 if exist Q:\setup.exe %command% %xml%
 if not exist Q:\setup.exe goto try
@@ -135,46 +163,34 @@ net stop "Fanxiushu File System Redirect Directory"
 net start "Fanxiushu File System Redirect Directory"
 echo try again........
 ipconfig
-echo installiso=%isopath%
-echo httptimeout=%httptimeout%
-ping 127.0 -n 20 >nul
+echo installiso:%isopath%
+echo httptimeout:%httptimeout%
+echo formatmbr: %formatmbr%
+echo formatgpt: %formatgpt%
+echo silent:%silent%
+ping 127.0 -n %httptimeout% >nul
 if exist Q:\setup.exe %command% %xml%
-if not exist Q:\setup.exe cmd /k
+if not exist Q:\setup.exe %command% %xml%
 exit
-:::::::::::::::::::::::::::::ä»¥ä¸‹æ˜¯p2p
-:startp2p
-cls
-:åˆ¤æ–­formatmbrå€¼
-if defined formatmbr (
-    aria2c http://%serverip%/app/winsetup/format.bat.mbr -d X:\ >nul
-	if exist X:\format.bat del /q X:\format.bat
-	ren X:\format.bat.mbr format.bat
-	call X:\format.bat
-) else set formatmbr=""
-:åˆ¤æ–­formatgptå€¼
-if defined formatgpt (
-    aria2c http://%serverip%/app/winsetup/format.bat.gpt -d X:\ >nul
-	if exist X:\format.bat del /q X:\format.bat
-	ren X:\format.bat.gpt format.bat
-	call X:\format.bat
-) else set formatgpt=""
+:::::::::::::::::::::::::::::ÒÔÏÂÊÇp2p
 
+:startp2p
 ipconfig
 echo installiso:%isopath%
 echo httptimeout:%httptimeout%
 echo formatmbr: %formatmbr%
 echo formatgpt: %formatgpt%
-echo warning!! p2pmode!!!
-ping 127.0 -n %httptimeout% >nul
+echo silent:%silent%
+echo warning!! p2pmode!!
 if exist X:\winp2p.exe del /q X:\winp2p.exe
 aria2c http://%serverip%/app/winsetup/winp2p.exe -d X:\ >nul
 start "" /min cmd /c X:\winp2p.exe
 :startcheck
 if not exist %checkwim% (
-echo æ­£åœ¨åŒæ­¥â€¦â€¦ 
+echo syncing ÕýÔÚÍ¬²½!!!
 ping 127.0 -n 6 >nul
 ) else (
-echo åŒæ­¥å®Œæˆï¼Œå‡†å¤‡è¿˜åŽŸâ€¦â€¦ &&goto cgi
+echo ok£¬restore Í¬²½Íê³É!! &&goto cgi
 )
 :end
 goto startcheck
@@ -184,12 +200,44 @@ ping 127.0 -n %httptimeout% >nul
 start "" "X:\windows\system32\cgi.exe" %temp%\system.ini
 exit
 
-
+::ÆäËü¹¦ÄÜ
 ::echo list volume|diskpart|findstr /i Document >~tmp
 ::for /f "tokens=2" %%a in (~tmp) do set part=%%a
 ::cmd /c "echo sele disk 0 & echo sele part %part% & echo set id=12" | diskpart
 ::del ~tmp
-::echo æ‰¾åˆ°ç›˜ %part%
+::echo ÕÒµ½ÅÌ %part%
+:smb
+echo net use smb....
+set 
+net use \\%serverip%\%smbpath% "%smbpass%" /user:%smbuser%
+echo []>%~dp0\xFsRedir.ini
+cls
+echo building config....
+setlocal enabledelayedexpansion
+(
+echo [vdir0]
+echo mondir=Q:\
+echo svrip=%serverip%
+echo svrport=0
+echo authstring=%smbpass%
+echo rootdir=\%smbpath%
+echo threadcount=55
+echo proto_type=3
+echo user=%smbuser%
+echo cache_dir=
+echo querytimeout=60
+echo transtimeout=60
+echo isansiname=0
+echo iscasename=0
+echo pathinfo_cache_timeout=55
+echo memdisk_size=256
+echo disable=0
+echo isreadonly=0
+)>>%~dp0\xFsRedir.ini
+ping 127.0 -n 2 >nul
+net start "Fanxiushu File System Redirect Directory"
+cgi
+exit
 
 
 

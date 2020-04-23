@@ -14,6 +14,10 @@ varlist =
 		"formatmbr",
 		"formatgpt",
 		"silent",
+		"smb",
+		"smbpath",
+		"smbuser",
+		"smbpass",
 		"index"
 		
 }
@@ -44,7 +48,7 @@ function previous()
 		--add go-previous menu--   
             icon = ("go-previous")
             name = grub.gettext ("┇返回➯[主页]┇选择要安装的系统")
-            command = "configfile $prefix/$bootmode;"
+            command = "configfile $prefix/main.sh;"
             grub.add_icon_menu (icon, command, name)
 end            
         --view bootmenu
