@@ -12,7 +12,9 @@ varlist =
 		"p2p",
 		"serverip",
 		"formatmbr",
-		"formatgpt"
+		"formatgpt",
+		"silent",
+		"index"
 		
 }
 
@@ -25,7 +27,7 @@ function getini(num)
             getvar = ""
         else
             print(myvar .. "=" .. getvar)
-            grub.script ("export " .. myvar .. "=" .. getvar .. "; save_env -f ${prefix}/ms/null.cfg " .. myvar .. "")
+            grub.script ("export " .. myvar .. "=\"" .. getvar .. "\"; save_env -f ${prefix}/ms/null.cfg " .. myvar .. "")
         
         end
 		
@@ -115,8 +117,16 @@ end
 		print ("正在启动，请稍候……")
 		grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
 		
+		elseif func == "mapiso" and platform == "pc" then
+		getbootfile()
+		grub.script ("export grubfm_path=$setupiso; grubfm_file=$setupiso; configfile $prefix/rules/net/iso.sh;")
+			
 		--efiboot.sh
 		elseif func == "efiboot" then
 		grub.script ("configfile $prefix/efiboot.sh")
+		
+		--legacyboot.sh
+		elseif func == "legacyboot" then
+		grub.script ("configfile $prefix/legacyboot.sh")
 		end
 

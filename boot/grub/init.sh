@@ -166,12 +166,12 @@ fi;
 function biosmenu {
 menuentry "net install windows" {
     export timeout=20
-set func=default; lua $prefix/getini.lua; configfile $prefix/legacybios.sh;
+set func=default; lua $prefix/getini.lua; configfile $prefix/main.sh;
 }
 }
 function efimenu {
 menuentry "net install windows" {
-set func=default; lua $prefix/getini.lua; configfile $prefix/efi.sh;
+set func=default; lua $prefix/getini.lua; configfile $prefix/main.sh;
 }
 }
 

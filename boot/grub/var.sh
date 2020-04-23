@@ -16,11 +16,11 @@
 #strconv --utf8 --set=name "${name}";
 
 if [ "$grub_platform" = "efi" ]; then
-	export bootmode=efi.sh;	 
+		 
 	export bootmenu=efiboot.sh;
 	efivar;
 else 
-	export bootmode=legacybios.sh;	
+	
 	export bootmenu=legacyboot.sh;
 fi;
 
@@ -55,6 +55,59 @@ fi;
     set installiso=http://${serverip}${setupiso};
     save_env -f ${prefix}/ms/null.cfg installiso
 	
+function getefivar {
+if getargs --value "netwim" netwim_file;
+then
+export bootmode="网络启wim";
+else
+unset netwim_file;
+fi;
+
+
+if getargs --value "netiso" netiso_file;
+then
+export bootmode="网启iso";
+else
+unset netiso_file;
+fi;
+
+if getargs --value "file" run_file;
+then
+export bootmode="本地启动";
+else
+unset run_file;
+fi;
+
+
+if getargs --value "iso" iso_file;
+then
+export bootmode="本地启动";
+else
+unset iso_file;
+fi;
+
+if getargs --value "setupwim" setupwim_file;
+then
+export bootmode="网络安装微软原版";
+else
+unset setupwim_file;
+fi;
+
+if getargs --value "setupiso" setupiso_file;
+then
+export bootmode="网络安装微软原版";
+else
+unset setupiso_file;
+fi;
+
+if getargs --value "autounattend" autounattend_file;
+then
+export bootmode="网络安装微软原版-自动应答文件";
+else
+unset autounattend_file;
+fi;
+}	
+
 function efivar {
    	getargs --value "proxydhcp" proxydhcp;
 	getargs --value "httptimeout" httptimeout;

@@ -18,9 +18,10 @@ echo extracting files ...
 copy /y %cd%\%arch%.wcs %cd%\tool.wcs 
 copy /y %cd%\pecmd%arch%.exe %cd%\pecmd.exe
 copy /y %cd%\cgi%arch%.exe %cd%\cgi.exe
+copy /y %cd%\aria2c%arch%.exe %cd%\aria2c.exe
 ::copy pecmd%arch%.exe %cd%\pecmd.exe /y
 ::%cd%\pecmd %arch%.wcs
-for %%i in (name installiso setupiso httptimeout command serverip checkwim p2p formatmbr formatgpt) do (
+for %%i in (name installiso setupiso httptimeout command serverip checkwim silent p2p formatmbr formatgpt index) do (
 for /f "tokens=1,2 delims==" %%a in ('find "%%i=" null.cfg') do set %%i=%%b
 )
 )
@@ -36,7 +37,7 @@ echo checkwim=%checkwim%
 echo p2p=%p2p%
 echo formatmbr=%formatmbr%
 echo formatgpt=%formatgpt%
-
+echo index=%index%
 :判断p2p值
 if defined p2p (
     goto startp2p
@@ -95,6 +96,30 @@ if defined checkwim (
     echo %checkwim%
 ) else set checkwim=I:\ghos\system.wim
 
+:判断slient值
+if defined slient (
+    echo %slient%
+) else set slient=1
+
+:判断index值
+if defined index (
+    echo %slient%
+) else set index=1
+
+:生成cgi的配置文件
+(
+echo [operation]
+echo action=restore
+echo silent=%silent%
+echo [source]
+echo %checkwim%^|%index%
+echo [destination]
+echo DriveLetter = system
+echo [miscellaneous]
+echo format = 1
+echo fixboot=auto
+echo shutdown=2
+)>"%temp%\system.ini"
 
 :setupwin
 echo wait.................
@@ -102,7 +127,7 @@ ipconfig
 echo installiso=%isopath%
 echo httptimeout=%httptimeout%
 ping 127.0 -n %httptimeout% >nul
-if exist Q:\setup.exe Q:\setup.exe %xml%
+if exist Q:\setup.exe %command% %xml%
 if not exist Q:\setup.exe goto try
 
 :try
@@ -155,19 +180,7 @@ echo 同步完成，准备还原…… &&goto cgi
 goto startcheck
 :cgi
 ping 127.0 -n %httptimeout% >nul
-(
-echo [operation]
-echo action=restore
-echo silent=1
-echo [source]
-echo %checkwim%^|1
-echo [destination]
-echo DriveLetter = system
-echo [miscellaneous]
-echo format = 1
-echo fixboot=auto
-echo shutdown=2
-)>"%temp%\system.ini"
+
 start "" "X:\windows\system32\cgi.exe" %temp%\system.ini
 exit
 
