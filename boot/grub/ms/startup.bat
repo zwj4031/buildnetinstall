@@ -103,8 +103,8 @@ if defined slient (
 
 :判断index值
 if defined index (
-    echo %slient%
-) else set index=1
+    echo %index%
+) else set index=""
 
 :生成cgi的配置文件
 (
