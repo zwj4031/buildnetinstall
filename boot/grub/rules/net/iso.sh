@@ -37,6 +37,11 @@ menuentry $"使用g4d方式(ipxe读) " --class net {
    linux16 $prefix/ipxe.lkrn dhcp \&\& kernel http://${net_default_server}/app/legacy/grub.exe --config-file=$g4d_cmd \&\& initrd http://${net_default_server}$grubfm_path \&\& boot
   
 }
+
+menuentry $"安装原版iso(测试) " --class net {
+   set func=netsetup; lua $prefix/open.lua;
+}
+
 #menuentry $"使用g4d方式(ipxe转g4d测试) " --class net {
 #   terminal_output console;
 #   enable_progress_indicator=1;

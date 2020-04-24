@@ -63,6 +63,7 @@
 *search: search
 *serial: serial
 *setenv: setenv
+*setkey: setkey
 *sha1sum: hashsum
 *sha256sum: hashsum
 *sha512sum: hashsum

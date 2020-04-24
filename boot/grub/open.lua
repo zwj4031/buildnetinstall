@@ -73,13 +73,13 @@ function bootmenu()
             icon = "iso"
 	    end
 		if setupiso == nil and setupwim ~=nil then
-            command = "export func=wimboot; j=" .. j .. "; lua $prefix/getini.lua;"   
+            command = "export func=wimboot; j=" .. j .. "; lua $prefix/open.lua;"   
             grub.add_icon_menu (icon,command, name)
         elseif setupwim == nil and setupiso ~=nil then
-            command = "export func=mapiso; j=" .. j .. "; lua $prefix/getini.lua;"   
+            command = "export func=mapiso; j=" .. j .. "; lua $prefix/open.lua;"   
             grub.add_icon_menu (icon,command, name)
         elseif setupwim ~= nil and setupiso ~=nil then
-            command = "export func=boot; j=" .. j .. "; lua $prefix/getini.lua;" 
+            command = "export func=boot; j=" .. j .. "; lua $prefix/open.lua;" 
             grub.add_icon_menu (icon,command, name)
         end
 	end	
@@ -112,9 +112,18 @@ end
 		
 		elseif func == "wimboot" and platform == "pc" then
 		getbootfile()
-		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot /ms/wimboot.gz; " .. 
+		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " .. 
 			"linux16 (wimboot)/wimboot; initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
-			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:(http)" .. file)
+			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:(http)$setupwim")
+			
+		elseif func == "netsetup" and platform == "pc" then
+		grub.script ("echo wait.......; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " ..
+		    "loopback netiso (http)/$setupiso; " ..
+			"export setupwim=(netiso)/sources/boot.wim; export grubfm_file=$setupwim; echo done!; " ..
+			"set lang=en_US; terminal_output console; linux16 (wimboot)/wimboot; " ..
+			"initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
+			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:$setupwim")
+				
 			
 		--map iso
 		elseif func == "mapiso" and platform == "efi" then

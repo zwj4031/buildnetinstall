@@ -1,6 +1,6 @@
 set lang=en_US;
 terminal_output console;
-loopback wimboot ${prefix}/wimboot.gz;
+loopback wimboot ${prefix}/ms/wimboot.gz;
 if [ "$grub_platform" = "efi" ];
 then
    set enable_progress_indicator=1;

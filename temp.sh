@@ -38,7 +38,8 @@ done
 cp arch/legacy-pxe/insmod.lst build/boot/grub/
 cp arch/legacy-pxe/wimboot.gz build/boot/grub/ms/
 cd build
-find ./boot | cpio -o -H newc > ../netinstallcore
+echo gzip .... wait...
+find ./boot | cpio -o -H newc | gzip -9 > ../netinstallcore
 cd ..
 modules=$(cat arch/legacy-pxe/builtin.txt)
 grub-mkimage -d ./grub/i386-pc -c ./arch/legacy-pxe/pxefm.cfg -o netinstall.pcbios -O i386-pc-pxe -prefix="(pxe)" $modules

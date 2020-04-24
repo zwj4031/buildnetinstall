@@ -65,7 +65,7 @@ fi;
 
 
 menuentry "1.立即启动--模式:[${platform}][${bootmode}][超时:$httptimeout]" --class nt6 {
-   set func=$defaultmode; j=0; lua $prefix/getini.lua;
+   set func=$defaultmode; j=0; lua $prefix/open.lua;
 }
 
 menuentry "2.更多系统--自定义[/app/winsetup/netinstall.ini]" --class nt6 {
