@@ -22,11 +22,13 @@ source $prefix/var.sh;
 if [ "$grub_platform" = "efi" ];
 then
 set defaultmode=efiboot;
+set platform=UEFI;
 getefivar;
    
 elif [ "$grub_platform" = "pc" ];
 then
 set defaultmode=legacyboot;
+set platform=传统BIOS;
 fi;
 
 
@@ -62,35 +64,33 @@ fi;
 
 
 
-menuentry "1.立即启动[模式:${bootmode}][设备:${net_default_server}][超时:$httptimeout]" --class nt6 {
+menuentry "1.立即启动--模式:[${platform}][${bootmode}][超时:$httptimeout]" --class nt6 {
    set func=$defaultmode; j=0; lua $prefix/getini.lua;
 }
 
-menuentry "2.安装其它系统包" --class nt6 {
+menuentry "2.更多系统--自定义[/app/winsetup/netinstall.ini]" --class nt6 {
    #background_image ${prefix}/themes/qq/qq.png; getkey; configfile ${prefix}/menu.sh;
   configfile $prefix/loadlist.sh;
 }
 
-menuentry "3.启动不了-定制-大发慈悲-欢迎联系作者--史上最伟大网管[选中查看]" --class cong {
+menuentry "3.捐助作者--bug反馈[选中查看]" --class cong {
    #background_image ${prefix}/themes/qq/qq.png; getkey; configfile ${prefix}/menu.sh;
 load_qq; configfile $prefix/qrcode.sh;
 }
-
-
-menuentry "本地启动文件(优先):${netwim}${netiso}${netefi}${run_file} ${iso_file}" --class wim {
- set func=$defaultmode; j=0; lua $prefix/getini.lua;
+menuentry "4.当前设备--${net_default_server}[选中切换]" --class wim {
+echo 请输入IP或域名:; read net_default_server; export net_default_server; configfile $prefix/main.sh;
 }
 
-
-menuentry "wim文件:${setupwim_file} ${setupwim}" --class wim {
-    set func=$defaultmode; j=0; lua $prefix/getini.lua;
+menuentry "5.WIM文件:${setupwim_file} ${setupwim}" --class wim {
+ load_qq; configfile $prefix/qrcode.sh;
 }
 
-menuentry "iso文件:${setupiso_file} ${setupiso}" --class iso {
- set func=$defaultmode; j=0; lua $prefix/getini.lua;
+menuentry "6.ISO文件:${setupiso_file} ${setupiso} 应答文件:${autounattend}" --class iso {
+ load_qq; configfile $prefix/qrcode.sh;
 }
 
-menuentry "自动应答文件:${autounattend}" --class cfg {
-   set func=$defaultmode; j=0; lua $prefix/getini.lua;
+menuentry "p2p:${p2p} smb:${smb} 静默:${silent} 系统:${checkwim} 分卷:${index} 分区mbr:${formatmbr} gpt:${formatbpt} [刷新]" --class cfg {
+  configfile $prefix/init.sh
 }
+
 

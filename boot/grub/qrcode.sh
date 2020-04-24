@@ -17,7 +17,7 @@
 #unset grub_frame_speed;
 source $prefix/var.sh
 menuentry "返回主菜单[当前模式:${bootmode}][设备:${net_default_server}]" --class nt6 {
-    configfile ${prefix}/$bootmode;
+    configfile ${prefix}/main.sh;
 }
 
 
