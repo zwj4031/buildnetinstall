@@ -19,11 +19,9 @@
 ##网络安装加入开始	
 #source $prefix/var.sh;
 ##############添加自煮研发的
-source $prefix/var.sh;
- 
-
-loopback -m wimboot ${prefix}/ms/wimboot.gz;
- set lang=en_US;
+#source $prefix/var.sh;
+loopback wimboot ${prefix}/ms/wimboot.gz;
+set lang=en_US;
 terminal_output console;
 set enable_progress_indicator=1;
 linux16 (wimboot)/wimboot;

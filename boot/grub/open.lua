@@ -88,7 +88,7 @@ end
         func = grub.getenv ("func")
 		platform = grub.getenv ("grub_platform")
         ini = grub.ini_load ("(http)/app/winsetup/netinstall.ini") 
-		
+		autounattend = grub.getenv ("autounattend")
         if func == nil then
         print("no command!!")
 		
@@ -116,13 +116,46 @@ end
 			"linux16 (wimboot)/wimboot; initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
 			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:(http)$setupwim")
 			
-		elseif func == "netsetup" and platform == "pc" then
-		grub.script ("echo wait.......; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " ..
+		elseif func == "netsetup" and platform == "pc" and autounattend == nil then
+		grub.script ("echo wait.......; " ..
+		    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		    "loopback netiso (http)/$setupiso; " ..
-			"export setupwim=(netiso)/sources/boot.wim; export grubfm_file=$setupwim; echo done!; " ..
-			"set lang=en_US; terminal_output console; linux16 (wimboot)/wimboot; " ..
-			"initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
-			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:$setupwim")
+			"export setupwim=(netiso)/sources/boot.wim; " ..
+			"set lang=en_US; terminal_output console; set enable_progress_indicator=1; linux16 (wimboot)/wimboot; " ..
+            "initrd16 newc:bootmgr:(wimboot)/bootmgr " ..
+			"newc:bootmgr.exe:(wimboot)/bootmgr.exe " ..
+			"newc:BCD:(wimboot)/bcd " ..
+			"newc:boot.sdi:(wimboot)/boot.sdi " ..
+			"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
+			"newc:startup.bat:${prefix}/ms/startup.bat " ..
+			"newc:null.cfg:${prefix}/ms/null.cfg " ..
+			"newc:7zx64.exe:${prefix}/ms/7zx64.exe " ..
+			"newc:7zx64.dll:${prefix}/ms/7zx64.dll " ..
+			"newc:7zx86.exe:${prefix}/ms/7zx86.exe " ..
+			"newc:7zx86.dll:${prefix}/ms/7zx86.dll " ..
+			"newc:tool.7z:${prefix}/ms/tool.7z " ..
+			"newc:boot.wim:${setupwim};")
+			
+		elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
+		grub.script ("echo wait.......; " ..
+		    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
+		    "loopback netiso (http)/$setupiso; " ..
+			"export setupwim=(netiso)/sources/boot.wim; " ..
+			"set lang=en_US; terminal_output console; set enable_progress_indicator=1; linux16 (wimboot)/wimboot; " ..
+            "initrd16 newc:bootmgr:(wimboot)/bootmgr " ..
+			"newc:bootmgr.exe:(wimboot)/bootmgr.exe " ..
+			"newc:BCD:(wimboot)/bcd " ..
+			"newc:boot.sdi:(wimboot)/boot.sdi " ..
+			"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
+			"newc:startup.bat:${prefix}/ms/startup.bat " ..
+			"newc:null.cfg:${prefix}/ms/null.cfg " ..
+			"newc:7zx64.exe:${prefix}/ms/7zx64.exe " ..
+			"newc:7zx64.dll:${prefix}/ms/7zx64.dll " ..
+			"newc:7zx86.exe:${prefix}/ms/7zx86.exe " ..
+			"newc:7zx86.dll:${prefix}/ms/7zx86.dll " ..
+			"newc:tool.7z:${prefix}/ms/tool.7z " ..
+			"newc:autounattend.xml:(http)/$autounattend " ..
+			"newc:boot.wim:${setupwim};")
 				
 			
 		--map iso
