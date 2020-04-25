@@ -42,6 +42,10 @@ menuentry $"安装原版iso(测试) " --class net {
    set func=netsetup; lua $prefix/open.lua;
 }
 
+menuentry $"安装原版iso(用网络路径上的wim.sh) " --class net {
+   configfile (pxe)/wim.sh;
+}
+
 #menuentry $"使用g4d方式(ipxe转g4d测试) " --class net {
 #   terminal_output console;
 #   enable_progress_indicator=1;

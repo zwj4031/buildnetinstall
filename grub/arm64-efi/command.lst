@@ -12,6 +12,7 @@
 *cryptomount: cryptodisk
 *date: date
 *dd: dd
+*disable_wpbt: acpi
 *dp: dp
 *echo: echo
 *efiload: efiload
