@@ -119,6 +119,7 @@ end
 		elseif func == "netsetup" and platform == "pc" and autounattend == nil then
 		grub.script ("echo wait.......; " ..
 		    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
+			"loopback tool ${prefix}/ms/tool.gz; " ..
 		    "loopback netiso (http)/$setupiso; " ..
 			"export setupwim=(netiso)/sources/boot.wim; " ..
 			"set lang=en_US; terminal_output console; set enable_progress_indicator=1; linux16 (wimboot)/wimboot; " ..
@@ -129,16 +130,19 @@ end
 			"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 			"newc:startup.bat:${prefix}/ms/startup.bat " ..
 			"newc:null.cfg:${prefix}/ms/null.cfg " ..
-			"newc:7zx64.exe:${prefix}/ms/7zx64.exe " ..
-			"newc:7zx64.dll:${prefix}/ms/7zx64.dll " ..
-			"newc:7zx86.exe:${prefix}/ms/7zx86.exe " ..
-			"newc:7zx86.dll:${prefix}/ms/7zx86.dll " ..
-			"newc:tool.7z:${prefix}/ms/tool.7z " ..
+			"newc:7zx64.exe:(tool)/7zx64.exe " ..
+			"newc:7zx64.dll:(tool)/7zx64.dll " ..
+			"newc:7zx86.exe:(tool)/7zx86.exe " ..
+			"newc:7zx86.dll:(tool)/7zx86.dll " ..
+			"newc:scx86.exe:(tool)/scx86.exe " ..
+			"newc:scx64.exe:(tool)/scx64.exe " ..
+			"newc:tool.gz:${prefix}/ms/tool.gz " ..
 			"newc:boot.wim:${setupwim};")
 			
 		elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
 		grub.script ("echo wait.......; " ..
 		    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
+			"loopback tool ${prefix}/ms/tool.gz; " ..
 		    "loopback netiso (http)/$setupiso; " ..
 			"export setupwim=(netiso)/sources/boot.wim; " ..
 			"set lang=en_US; terminal_output console; set enable_progress_indicator=1; linux16 (wimboot)/wimboot; " ..
@@ -149,11 +153,13 @@ end
 			"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 			"newc:startup.bat:${prefix}/ms/startup.bat " ..
 			"newc:null.cfg:${prefix}/ms/null.cfg " ..
-			"newc:7zx64.exe:${prefix}/ms/7zx64.exe " ..
-			"newc:7zx64.dll:${prefix}/ms/7zx64.dll " ..
-			"newc:7zx86.exe:${prefix}/ms/7zx86.exe " ..
-			"newc:7zx86.dll:${prefix}/ms/7zx86.dll " ..
-			"newc:tool.7z:${prefix}/ms/tool.7z " ..
+			"newc:7zx64.exe:(tool)/7zx64.exe " ..
+			"newc:7zx64.dll:(tool)/7zx64.dll " ..
+			"newc:7zx86.exe:(tool)/7zx86.exe " ..
+			"newc:7zx86.dll:(tool)/7zx86.dll " ..
+			"newc:scx86.exe:(tool)/scx86.exe " ..
+			"newc:scx64.exe:(tool)/scx64.exe " ..
+			"newc:tool.gz:${prefix}/ms/tool.gz " ..
 			"newc:autounattend.xml:(http)/$autounattend " ..
 			"newc:boot.wim:${setupwim};")
 				

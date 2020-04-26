@@ -54,8 +54,10 @@ mv netinstall.pcbios tftpboot/
 mv netinstall.efi tftpboot/
 mv netinstallcore tftpboot/app/winsetup/
 cp netinstall.env tftpboot/app/winsetup/
-cp netinstall.ini tftpboot/app/winsetup/
+cp netinstall.ini tftpboot/app/winsetup/netinstall.ini
+cp netinstall.ini tftpboot/app/winsetup/netinstall.ini.sample
 rm -rf build
 cp tftpboot/app/winsetup/netinstallcore /mnt/s/netinstall-master/app/winsetup/
 cp tftpboot/netinstall.efi /mnt/s/netinstall-master/
+mv tftpboot netinstall-master
 

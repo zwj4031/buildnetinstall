@@ -13,14 +13,17 @@ if %PROCESSOR_ARCHITECTURE% == x86 (
   )
 copy 7z%arch%.dll %cd%\7z.dll /y
 echo extracting files ...
-%cd%\7z%arch%.exe x tool.7z -o%cd%\ -y
+%cd%\7z%arch%.exe x tool.gz -o%cd%\ -y
+%cd%\7z%arch%.exe x tool -o%cd%\ -y
+del /q %cd%\tool
+del /q %cd%\tool.gz
 copy /y %cd%\%arch%.wcs %cd%\tool.wcs 
 copy /y %cd%\pecmd%arch%.exe %cd%\pecmd.exe
 copy /y %cd%\cgi%arch%.exe %cd%\cgi.exe
 copy /y %cd%\aria2c%arch%.exe %cd%\aria2c.exe
+copy /y %cd%\sc%arch%.exe %cd%\sc.exe
+
 sc create xFsRedirApp binpath= "%~dp0\xFsRedir%arch%.exe -server" displayname= "Fanxiushu File System Redirect Directory" start= auto
-
-
 for %%i in (name installiso smb smbpath smbuser smbpass setupiso httptimeout command serverip checkwim silent p2p formatmbr formatgpt index) do (
 for /f "tokens=1,2 delims==" %%a in ('find "%%i=" null.cfg') do set %%i=%%b
 )

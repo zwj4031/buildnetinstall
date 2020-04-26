@@ -1,7 +1,7 @@
 #source ${prefix}/func.sh;
 
 default=1;
-timeout=3;
+timeout=8;
 
 if [ "$grub_platform" = "efi" ];
 then
@@ -37,7 +37,7 @@ menuentry $"使用g4d方式(grub2读)" --class net {
 #   linux16 $prefix/ipxe.lkrn dhcp \&\& kernel http://${net_default_server}/app/legacy/grub.exe --config-file=$g4d_cmd \&\& initrd http://${net_default_server}$grubfm_path \&\& boot
 #}
 
-menuentry $"安装原版iso(测试) " --class net {
+menuentry $"安装微软原版iso(免PE测试) " --class net {
    set func=netsetup; lua $prefix/open.lua;
 }
 

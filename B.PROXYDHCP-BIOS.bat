@@ -1,7 +1,10 @@
 echo off
-echo ..............开始..........................
-
+mode con cols=50 lines=5
+title=building......
 taskkill /f /im pxesrv.exe
+taskkill /f /im hfs.exe
+cd /d %~dp0
+
 if not exist %~dp0boot mkdir %~dp0boot
 for /f %%i in ('dir /b %~dp0*.iso') do set setupiso=/%%i
 if not exist %~dp0\boot\boot.wim %~dp0\bin\7z.exe e -oboot -aoa  %1 sources/boot.wim
@@ -49,12 +52,15 @@ echo serverip=
 echo [dhcp]
 echo start=1
 echo proxydhcp=1
-echo httpd=1
+echo httpd=0
 echo bind=1
 echo poolsize=998
 echo root=%~dp0
 echo filename=ipxe-undionly.bios
 echo altfilename=netinstall.ipxe
 )>%~dp0\config.INI
+start "" /min %~dp0\bin\hfs.exe -c active=yes -a %~dp0\bin\myhfs.ini
+for /f %%a in ('dir /b/a-d *.*') do start "" /min %~dp0\bin\hfs.exe %%a
+start "" /min %~dp0\bin\hfs.exe  %~dp0\app
 start ""  %~dp0\pxesrv.exe
 exit
