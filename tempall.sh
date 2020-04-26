@@ -37,6 +37,8 @@ do
 done
 cp arch/legacy-pxe/insmod.lst build/boot/grub/
 cp arch/legacy-pxe/wimboot.gz build/boot/grub/ms/
+cp arch/legacy-pxe/grub.exe build/boot/grub/
+cp arch/legacy-pxe/memdisk build/boot/grub/
 cd build
 echo gzip .... wait...
 find ./boot | cpio -o -H newc | gzip -9 > ../netinstallcore

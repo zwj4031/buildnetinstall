@@ -37,6 +37,8 @@ do
 done
 cp arch/legacy-pxe/insmod.lst build/boot/grub/
 cp arch/legacy-pxe/wimboot.gz build/boot/grub/ms/
+cp arch/legacy-pxe/grub.exe build/boot/grub/
+cp arch/legacy-pxe/memdisk build/boot/grub/
 cd build
 echo gzip .... wait...
 find ./boot | cpio -o -H newc | gzip -9 > ../netinstallcore
@@ -56,5 +58,7 @@ cp netinstall.env tftpboot/app/winsetup/
 cp netinstall.ini tftpboot/app/winsetup/
 rm -rf build
 cp tftpboot/app/winsetup/netinstallcore /mnt/s/netinstall-master/app/winsetup/
+cp tftpboot/app/winsetup/netinstallcore /mnt/d/netinstall-master/app/winsetup/
 cp tftpboot/netinstall.efi /mnt/s/netinstall-master/
+cp tftpboot/netinstall.efi /mnt/d/netinstall-master/
 sudo rm -rf tftpboot
