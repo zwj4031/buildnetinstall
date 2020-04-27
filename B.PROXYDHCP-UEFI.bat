@@ -60,10 +60,10 @@ echo poolsize=998
 echo root=%~dp0
 echo filename=ipxe-undionly.efi
 echo altfilename=netinstall.ipxe
-)>%~dp0\config.INI
+)>%~dp0\bin\config.INI
 taskkill /f /im hfs.exe
 start "" /min %~dp0\bin\hfs.exe -c active=yes -a %~dp0\bin\myhfs.ini
 for /f %%a in ('dir /b/a-d  %~dp0\*.*') do start "" /min %~dp0\bin\hfs.exe %%a
 start "" /min %~dp0\bin\hfs.exe  %~dp0\app
-start ""  %~dp0\pxesrv.exe
+start ""  %~dp0\bin\pxesrv.exe
 exit
