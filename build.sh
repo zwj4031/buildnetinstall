@@ -45,9 +45,9 @@ cd ..
 modules=$(cat arch/legacy-pxe/builtin.txt)
 grub-mkimage -d ./grub/i386-pc -c ./arch/legacy-pxe/pxefm.cfg -o netinstall.pcbios -O i386-pc-pxe -prefix="(pxe)" $modules
 cp ipxe-undionly.* tftpboot/
+cp arch/legacy-pxe/*.bat tftpboot/
 cp bin/* tftpboot/bin/
 cp *.txt tftpboot/
-cp *.bat tftpboot/
 cp *.exe tftpboot/
 cp Sample/* tftpboot/Sample/
 mv netinstall.pcbios tftpboot/
