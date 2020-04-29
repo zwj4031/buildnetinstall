@@ -5,7 +5,6 @@ taskkill /f /im pxesrv.exe
 taskkill /f /im hfs.exe
 cd /d %~dp0
 
-
 taskkill /f /im pxesrv.exe
 if not exist %~dp0boot mkdir %~dp0boot
 for /f %%i in ('dir /b %~dp0*.iso') do set setupiso=/%%i
@@ -51,6 +50,8 @@ echo serverip=
 )>%~dp0app\winsetup\netinstall.ini
 
 (
+echo [arch]
+echo 00007=ipxe-undionly.efi
 echo [dhcp]
 echo start=1
 echo proxydhcp=1
@@ -58,7 +59,7 @@ echo httpd=0
 echo bind=1
 echo poolsize=998
 echo root=%~dp0
-echo filename=ipxe-undionly.efi
+echo filename=ipxe-undionly.bios
 echo altfilename=netinstall.ipxe
 )>%~dp0bin\config.INI
 taskkill /f /im hfs.exe

@@ -49,6 +49,8 @@ echo serverip=
 )>%~dp0app\winsetup\netinstall.ini
 
 (
+echo [arch]
+echo 00007=ipxe-undionly.efi
 echo [dhcp]
 echo start=1
 echo proxydhcp=1
