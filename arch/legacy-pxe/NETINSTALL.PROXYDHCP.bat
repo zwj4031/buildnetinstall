@@ -63,6 +63,6 @@ echo altfilename=netinstall.ipxe
 )>%~dp0bin\config.INI
 start "" /min %~dp0bin\hfs.exe -c active=yes -a %~dp0bin\myhfs.ini
 for /f %%a in ('dir /b/a-d *.*') do start "" /min %~dp0bin\hfs.exe %%a
-start "" /min %~dp0bin\hfs.exe  %~dp0app
+start "" /min %~dp0bin\hfs.exe  %~dp0app imgs isos vhds pe wims wim boot
 start ""  %~dp0bin\pxesrv.exe
 exit

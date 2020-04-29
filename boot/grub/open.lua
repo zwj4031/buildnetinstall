@@ -162,13 +162,13 @@ end
 		
 		--efinetsetup	
 		elseif func == "netsetup" and platform == "efi" and autounattend == nil then
-		grub.script ("echo wait.......; " ..
-		"loopback wimboot ${prefix}/wimboot.gz; " ..
+		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
+		"set enable_progress_indicator=1; echo loading......; " ..
+	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		"loopback tool ${prefix}/ms/tool.gz; " ..
-		"loopback netiso (http)/$setupiso; " ..
-		"set lang=en_US; terminal_output console; set enable_progress_indicator=1; " ..
-        "wimboot --gui " ..
-		"@:bootmgfw:(wimboot)/bootmgfw.efi " ..
+	    "loopback netiso (http)/$setupiso; " ..
+		"wimboot --gui " ..
+		"@:bootmgrfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:BCD:(wimboot)/bcd " ..
 		"@:boot.sdi:(wimboot)/boot.sdi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
@@ -179,16 +179,16 @@ end
 		"@:7zx86.exe:(tool)/7zx86.exe " ..
 		"@:7zx86.dll:(tool)/7zx86.dll " ..
 		"@:tool.gz:${prefix}/ms/tool.gz " ..
-		"@:boot.wim:$bootpath$setupwim")
+    	"@:boot.wim:$bootpath$setupwim;")
 		
 		elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
-		grub.script ("echo wait.......; " ..
-		"loopback wimboot ${prefix}/wimboot.gz; " ..
+		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
+		"set enable_progress_indicator=1; echo loading......; " ..
+	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		"loopback tool ${prefix}/ms/tool.gz; " ..
-		"loopback netiso (http)/$setupiso; " ..
-		"set lang=en_US; terminal_output console; set enable_progress_indicator=1; " ..
-        "wimboot --gui " ..
-		"@:bootmgfw:(wimboot)/bootmgfw.efi " ..
+	    "loopback netiso (http)/$setupiso; " ..
+		"wimboot --gui " ..
+		"@:bootmgrfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:BCD:(wimboot)/bcd " ..
 		"@:boot.sdi:(wimboot)/boot.sdi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
@@ -200,7 +200,8 @@ end
 		"@:7zx86.dll:(tool)/7zx86.dll " ..
 		"@:tool.gz:${prefix}/ms/tool.gz " ..
 		"@:autounattend.xml:(http)/$autounattend " ..
-		"@:boot.wim:$bootpath${setupwim}")
+		"@:boot.wim:$bootpath$setupwim;")
+		
 		--map iso
 		elseif func == "mapiso" and platform == "efi" then
 		getbootfile()
