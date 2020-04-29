@@ -9,4 +9,4 @@ else
 
 export bootmenu=legacyboot.sh;
 fi;
-set func=bootmenu; lua $prefix/getini.lua;
+set func=bootmenu; lua $prefix/open.lua;

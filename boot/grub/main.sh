@@ -40,13 +40,17 @@ fi;
 if [ -n "$setupwim" -a -n "$setupiso" ]; 
 then
 export bootmode="网络安装微软原版";
+
+set defaultmode=netsetup;
 fi;
 
 
 if [ -z "$setupiso" ]; 
 then
 export bootmode="网络启动wim";
+
 export netwim_file=$setupwim;
+
 set defaultmode="wimboot";
 else  
 unset netwim_file;
@@ -61,16 +65,13 @@ else
 unset netiso_file;
 fi;
 
-
-
-
 menuentry "1.立即启动--模式:[${platform}][${bootmode}][超时:$httptimeout]" --class nt6 {
    set func=$defaultmode; j=0; lua $prefix/open.lua;
 }
 
 menuentry "2.更多系统--自定义[/app/winsetup/netinstall.ini]" --class nt6 {
    #background_image ${prefix}/themes/qq/qq.png; getkey; configfile ${prefix}/menu.sh;
-  configfile $prefix/loadlist.sh;
+   clear_menu; set func=bootmenu; lua $prefix/open.lua;
 }
 
 menuentry "3.捐助作者--bug反馈[选中查看]" --class cong {

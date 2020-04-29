@@ -38,7 +38,7 @@ menuentry $"使用g4d方式(grub2读)" --class net {
 #}
 
 menuentry $"安装微软原版iso(免PE测试) " --class net {
-   set func=netsetup; lua $prefix/open.lua;
+   export setupwim=/sources/boot.wim; set bootpath=(netiso); set func=netsetup; lua $prefix/open.lua;
 }
 
 

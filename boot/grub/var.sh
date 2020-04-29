@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Grub2-FileManager.  If not, see <http://www.gnu.org/licenses/>.
 #strconv --utf8 --set=name "${name}";
-
+set bootpath=(http);
 if [ "$grub_platform" = "efi" ]; then
 		 
 	export bootmenu=efiboot.sh;
