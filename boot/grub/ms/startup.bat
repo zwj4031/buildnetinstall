@@ -7,23 +7,25 @@ ipconfig /renew >nul
 wpeutil disablefirewall
 MODE CON COLS=56 LINES=10
 cd /d X:\windows\system32
+set root=X:\windows\system32
 	set arch=x64
 if %PROCESSOR_ARCHITECTURE% == x86 (
 	set arch=x86
   )
-copy 7z%arch%.dll %cd%\7z.dll /y
+copy 7z%arch%.dll %root%\7z.dll /y
+echo cleaning files....
+@del /s /q X:\*.bmp>nul
+echo done.
 echo extracting files ...
-%cd%\7z%arch%.exe x tool.gz -o%cd%\ -y
-%cd%\7z%arch%.exe x tool -o%cd%\ -y
-del /q %cd%\tool
-del /q %cd%\tool.gz
-copy /y %cd%\%arch%.wcs %cd%\tool.wcs 
-copy /y %cd%\pecmd%arch%.exe %cd%\pecmd.exe
-copy /y %cd%\cgi%arch%.exe %cd%\cgi.exe
-copy /y %cd%\aria2c%arch%.exe %cd%\aria2c.exe
-copy /y %cd%\sc%arch%.exe %cd%\sc.exe
+%root%\7z%arch%.exe x tool.gz -o%root%\ -y
+@del /q %root%\tool.gz>nul
+%root%\7z%arch%.exe x tool -o%root%\ -y
+move %root%\%arch%\*.* %root%\ /y
+del /q %root%\tool
 
-sc create xFsRedirApp binpath= "%~dp0\xFsRedir%arch%.exe -server" displayname= "Fanxiushu File System Redirect Directory" start= auto
+echo done.
+echo starting services.....
+sc create xFsRedirApp binpath= "%root%\xFsRedir.exe -server" displayname= "Fanxiushu File System Redirect Directory" start= auto
 for %%i in (name installiso smb smbpath smbuser smbpass setupiso httptimeout command serverip checkwim silent p2p formatmbr formatgpt index) do (
 for /f "tokens=1,2 delims==" %%a in ('find "%%i=" null.cfg') do set %%i=%%b
 )
@@ -114,7 +116,7 @@ if defined p2p (
 
 
 :httpiso
-echo []>%~dp0\xFsRedir.ini
+echo []>%root%\xFsRedir.ini
 cls
 echo building config....
 setlocal enabledelayedexpansion
@@ -133,7 +135,7 @@ echo nfs_mountdir=
 :::下面的是线程数
 echo threadcount=55
 echo transtimeout=60
-)>>%~dp0\xFsRedir.ini
+)>>%root%\xFsRedir.ini
 goto startmount
 
 
@@ -143,7 +145,7 @@ net start "Fanxiushu File System Redirect Directory"
 
 set xml=
 if exist autounattend.xml (
-  set xml=/Unattend:%~dp0\autounattend.xml
+  set xml=/Unattend:%root%\autounattend.xml
   echo Add parameter %xml%
 )
 cls
@@ -213,7 +215,7 @@ exit
 echo net use smb....
 set 
 net use \\%serverip%\%smbpath% "%smbpass%" /user:%smbuser%
-echo []>%~dp0\xFsRedir.ini
+echo []>%root%\xFsRedir.ini
 cls
 echo building config....
 setlocal enabledelayedexpansion
@@ -236,7 +238,7 @@ echo pathinfo_cache_timeout=55
 echo memdisk_size=256
 echo disable=0
 echo isreadonly=0
-)>>%~dp0\xFsRedir.ini
+)>>%root%\xFsRedir.ini
 ping 127.0 -n 2 >nul
 net start "Fanxiushu File System Redirect Directory"
 cgi

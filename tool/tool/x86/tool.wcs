@@ -1,0 +1,40 @@
+ENVI^  ForceLocal=1
+SET &::WM_LBUTTONDOWN=0x0201
+SET &::WM_COMMAND=0x0111
+SET &::EN_CHANGE=0x0300
+
+CALL @WIN1
+_SUB WIN1,W364H212,史上最伟大winre多功能维护工具箱x86,
+    LABE LABE1,L27T301W313H30,LABE1,,
+    MENU -bar Menu1,&F磁盘工具, EXEC =!"X:\windows\system32\dgx86.exe"
+    MENU -bar -sub MyMenuSub1,&S系统安装,MESS 系统安装*20000
+	MENU -bar Menu3,&H关于, EXEC =!"X:\windows\system32\dgx86.exe"
+    ENVI @Menu13.Enable=1
+    ENVI @Menu14.Id=?Menu14_hmenu;Menu14_Id;Menu14_inx
+    ENVI @LABE1= Menu14: hmenu=%Menu14_hmenu% CtrId=%Menu14_Id% Inx=%Menu14_inx%
+    //ENVI @this.MSG=_COMMAND#%Menu14_Id%::&&wp,&&lp, MESS On Menu11 *5000   //捕捉菜单按下
+    //ENVI @this.MSG=_%&WM_COMMAND%::&&wp,&&lp, CALL OnCommand   //捕捉菜单按下
+    TIME -t:1 ,100, CALL @--popmenu  MyMenu1
+_END
+
+_SUB OnCommand 
+    IFEX $%Menu14_Id%=%__wParam.wID%,  MESS On Menu11 *5000
+_END
+
+
+_SUB MyMenu1
+    CALC #&I=%&I% + 1
+    CALC #&&N= %&I% % 2
+    MENU Menu1,Menu1,MESS Menu1
+    MENU -sub MyMenuSub1,测试
+    IFEX $ 1 = %&N%, MENU Menu3,Menu3,MESS Menu3
+    MENU -
+    MENU Menu2,Menu2,MESS Menu2
+_END
+
+_SUB MyMenuSub1
+    MENU Menu11,CGI一键还原,EXEC =!"X:\windows\system32\cgix86.exe"
+    MENU Menu12,DG分区工具,EXEC =!"X:\windows\system32\dgx86.exe"
+    MENU Menu13,DISM++,EXEC =!"X:\windows\system32\dismx86.exe
+    MENU Menu14,FASTCOPY文件管理,EXEC =!"X:\windows\system32\fastcopyx86.exe
+_END

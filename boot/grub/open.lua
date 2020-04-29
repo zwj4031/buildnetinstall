@@ -41,8 +41,8 @@ function getini(num)
 end
 
 function getbootfile()
-            j = grub.getenv ("j")
-            getini(j)
+		 j = grub.getenv ("j")
+		 getini(j)
 end
 	 
 function previous()            
@@ -55,15 +55,11 @@ end
         --view bootmenu
 function bootmenu()
     for j=1,10 do
-	        name= (grub.ini_get (ini, j, "name"))
-			icon= (grub.ini_get (ini, j, "icon"))
-			
-        --getname(j)
-        --geticon(j)
-			setupiso = (grub.ini_get (ini, j, "setupiso"))
-			setupwim = (grub.ini_get (ini, j, "setupwim"))
-        --  getsetupiso(j)
-        --  getsetupwim(j)		  	            
+	    name= (grub.ini_get (ini, j, "name"))
+	    icon= (grub.ini_get (ini, j, "icon"))
+	    setupiso = (grub.ini_get (ini, j, "setupiso"))
+	    setupwim = (grub.ini_get (ini, j, "setupwim"))
+        	            
 		if name == nil then
             name = (j) .. ".[空]"
 		else 
@@ -93,16 +89,16 @@ end
         if func == nil then
         print("no command!!")
 		
-		elseif func == "bootmenu" then
+	elseif func == "bootmenu" then
 		previous()		 
 		bootmenu()
 		
 		--install windows iso
-		elseif func == "boot" then
+	elseif func == "boot" then
 		getbootfile()
 		grub.script ("configfile $prefix/$bootmenu")
 		
-		elseif func == "default" then
+	elseif func == "default" then
 		getini(0)
 		
 		--wimboot
@@ -111,13 +107,13 @@ end
 		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		"wimboot @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:bcd:(wimboot)/bcd @:boot.sdi:(wimboot)/boot.sdi @:boot.wim:$bootpath$setupwim")
 		
-		elseif func == "wimboot" and platform == "pc" then
+	elseif func == "wimboot" and platform == "pc" then
 		getbootfile()
 		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " .. 
 			"linux16 (wimboot)/wimboot; initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
 			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:$bootpath$setupwim")
 		--netsetup	
-		elseif func == "netsetup" and platform == "pc" and autounattend == nil then
+	elseif func == "netsetup" and platform == "pc" and autounattend == nil then
     	grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -131,14 +127,14 @@ end
 		"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"newc:startup.bat:${prefix}/ms/startup.bat " ..
 		"newc:null.cfg:${prefix}/ms/null.cfg " ..
-		"newc:7zx64.exe:(tool)/7zx64.exe " ..
-		"newc:7zx64.dll:(tool)/7zx64.dll " ..
-		"newc:7zx86.exe:(tool)/7zx86.exe " ..
-		"newc:7zx86.dll:(tool)/7zx86.dll " ..
+    	"newc:7zx64.exe:(tool)/x64/7z.exe " ..
+		"newc:7zx64.dll:(tool)/x64/7z.dll " ..
+		"newc:7zx86.exe:(tool)/x86/7z.exe " ..
+		"newc:7zx86.dll:(tool)/x86/7z.dll " ..
 		"newc:tool.gz:${prefix}/ms/tool.gz " ..
 		"newc:boot.wim:$bootpath$setupwim;")
 	
-		elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
+	elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
 	    grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -152,16 +148,16 @@ end
 		"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"newc:startup.bat:${prefix}/ms/startup.bat " ..
 		"newc:null.cfg:${prefix}/ms/null.cfg " ..
-		"newc:7zx64.exe:(tool)/7zx64.exe " ..
-		"newc:7zx64.dll:(tool)/7zx64.dll " ..
-		"newc:7zx86.exe:(tool)/7zx86.exe " ..
-		"newc:7zx86.dll:(tool)/7zx86.dll " ..
+		"newc:7zx64.exe:(tool)/x64/7z.exe " ..
+		"newc:7zx64.dll:(tool)/x64/7z.dll " ..
+		"newc:7zx86.exe:(tool)/x86/7z.exe " ..
+		"newc:7zx86.dll:(tool)/x86/7z.dll " ..
 		"newc:tool.gz:${prefix}/ms/tool.gz " ..
 		"newc:autounattend.xml:(http)/$autounattend " ..
 		"newc:boot.wim:$bootpath$setupwim;")
 		
 		--efinetsetup	
-		elseif func == "netsetup" and platform == "efi" and autounattend == nil then
+	elseif func == "netsetup" and platform == "efi" and autounattend == nil then
 		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -174,14 +170,14 @@ end
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
 		"@:null.cfg:${prefix}/ms/null.cfg " ..
-		"@:7zx64.exe:(tool)/7zx64.exe " ..
-		"@:7zx64.dll:(tool)/7zx64.dll " ..
-		"@:7zx86.exe:(tool)/7zx86.exe " ..
-		"@:7zx86.dll:(tool)/7zx86.dll " ..
+		"@:7zx64.exe:(tool)/x64/7z.exe " ..
+		"@:7zx64.dll:(tool)/x64/7z.dll " ..
+		"@:7zx86.exe:(tool)/x86/7z.exe " ..
+		"@:7zx86.dll:(tool)/x86/7z.dll " ..
 		"@:tool.gz:${prefix}/ms/tool.gz " ..
     	"@:boot.wim:$bootpath$setupwim;")
 		
-		elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
+	elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
 		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -194,30 +190,30 @@ end
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
 		"@:null.cfg:${prefix}/ms/null.cfg " ..
-		"@:7zx64.exe:(tool)/7zx64.exe " ..
-		"@:7zx64.dll:(tool)/7zx64.dll " ..
-		"@:7zx86.exe:(tool)/7zx86.exe " ..
-		"@:7zx86.dll:(tool)/7zx86.dll " ..
+		"@:7zx64.exe:(tool)/x64/7z.exe " ..
+		"@:7zx64.dll:(tool)/x64/7z.dll " ..
+		"@:7zx86.exe:(tool)/x86/7z.exe " ..
+		"@:7zx86.dll:(tool)/x86/7z.dll " ..
 		"@:tool.gz:${prefix}/ms/tool.gz " ..
 		"@:autounattend.xml:(http)/$autounattend " ..
 		"@:boot.wim:$bootpath$setupwim;")
 		
 		--map iso
-		elseif func == "mapiso" and platform == "efi" then
+	elseif func == "mapiso" and platform == "efi" then
 		getbootfile()
 		print ("正在启动，请稍候……")
 		grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
 		
-		elseif func == "mapiso" and platform == "pc" then
+	elseif func == "mapiso" and platform == "pc" then
 		getbootfile()
 		grub.script ("export grubfm_path=$setupiso; grubfm_file=$setupiso; configfile $prefix/rules/net/iso.sh;")
 			
 		--efiboot.sh
-		elseif func == "efiboot" then
+	elseif func == "efiboot" then
 		grub.script ("configfile $prefix/efiboot.sh")
 		
 		--legacyboot.sh
-		elseif func == "legacyboot" then
+	elseif func == "legacyboot" then
 		grub.script ("configfile $prefix/legacyboot.sh")
 		end
 
