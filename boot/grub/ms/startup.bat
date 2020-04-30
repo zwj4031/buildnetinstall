@@ -13,8 +13,6 @@ if %PROCESSOR_ARCHITECTURE% == x86 (
 	set arch=x86
   )
 copy 7z%arch%.dll %root%\7z.dll /y
-echo cleaning files....
-@del /s /q X:\*.bmp>nul
 echo done.
 echo extracting files ...
 %root%\7z%arch%.exe e -o%root% -aoa tool.7z %arch%\*
