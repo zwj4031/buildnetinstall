@@ -15,6 +15,16 @@
 # along with Grub2-FileManager.  If not, see <http://www.gnu.org/licenses/>.
 #strconv --utf8 --set=name "${name}";
 set bootpath=(http);
+function auto_swap {
+  if regexp '^hd[0-9a-zA-Z,]+$' ${grubfm_disk};
+  then
+    regexp -s devnum '^hd([0-9]+).*$' ${grubfm_disk};
+    if test "devnum" != "0";
+    then
+      drivemap -s (hd0) (${grubfm_disk});
+    fi;
+  fi;
+}
 if [ "$grub_platform" = "efi" ]; then
 		 
 	export bootmenu=efiboot.sh;

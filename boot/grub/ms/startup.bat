@@ -192,8 +192,12 @@ echo formatgpt: %formatgpt%
 echo silent:%silent%
 echo warning!! p2pmode!!
 if exist X:\winp2p.exe del /q X:\winp2p.exe
-aria2c http://%serverip%/app/winsetup/winp2p.exe -d X:\ >nul
-start "" /min cmd /c X:\winp2p.exe
+aria2c http://%serverip%/app/winsetup/winp2p.7z -d %root% >nul
+if exist winp2p.7z %root%\7z%arch%.exe x winp2p.7z -o%root%\ -y
+::taskkill /f /im verysync%arch%.exe
+if exist %root%\pecmd.exe %root%\pecmd.exe kill verysync%arch%.exe
+if exist start "" /min %root%\verysync%arch%.exe -home %root%\windata -gui-address :8886 -no-browser
+
 :startcheck
 if not exist %checkwim% (
 echo syncing 正在同步!!!
@@ -206,7 +210,7 @@ goto startcheck
 :cgi
 ping 127.0 -n %httptimeout% >nul
 
-start "" "X:\windows\system32\cgi.exe" %temp%\system.ini
+start "" "%root%\cgi.exe" %temp%\system.ini
 exit
 
 ::其它功能
