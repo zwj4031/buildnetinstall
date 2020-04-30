@@ -117,7 +117,7 @@ end
     	grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-		"loopback tool ${prefix}/ms/tool.gz; " ..
+		"loopback tool ${prefix}/ms/tool.7z; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"linux16 (wimboot)/wimboot; " ..
         "initrd16 newc:bootmgr:(wimboot)/bootmgr " ..
@@ -127,18 +127,18 @@ end
 		"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"newc:startup.bat:${prefix}/ms/startup.bat " ..
 		"newc:null.cfg:${prefix}/ms/null.cfg " ..
-    	"newc:7zx64.exe:(tool)/x64/7z.exe " ..
-		"newc:7zx64.dll:(tool)/x64/7z.dll " ..
-		"newc:7zx86.exe:(tool)/x86/7z.exe " ..
-		"newc:7zx86.dll:(tool)/x86/7z.dll " ..
-		"newc:tool.gz:${prefix}/ms/tool.gz " ..
+    	"newc:7zx64.exe:$prefix/ms/7zx64.exe " ..
+		"newc:7zx64.dll:$prefix/ms/7zx64.dll " ..
+		"newc:7zx86.exe:$prefix/ms/7zx86.exe " ..
+		"newc:7zx86.dll:$prefix/ms/7zx86.dll " ..
+		"newc:tool.7z:${prefix}/ms/tool.7z " ..
 		"newc:boot.wim:$bootpath$setupwim;")
 	
 	elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
 	    grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-		"loopback tool ${prefix}/ms/tool.gz; " ..
+		"loopback tool ${prefix}/ms/tool.7z; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"linux16 (wimboot)/wimboot; " ..
         "initrd16 newc:bootmgr:(wimboot)/bootmgr " ..
@@ -148,11 +148,11 @@ end
 		"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"newc:startup.bat:${prefix}/ms/startup.bat " ..
 		"newc:null.cfg:${prefix}/ms/null.cfg " ..
-		"newc:7zx64.exe:(tool)/x64/7z.exe " ..
-		"newc:7zx64.dll:(tool)/x64/7z.dll " ..
-		"newc:7zx86.exe:(tool)/x86/7z.exe " ..
-		"newc:7zx86.dll:(tool)/x86/7z.dll " ..
-		"newc:tool.gz:${prefix}/ms/tool.gz " ..
+		"newc:7zx64.exe:$prefix/ms/7zx64.exe " ..
+		"newc:7zx64.dll:$prefix/ms/7zx64.dll " ..
+		"newc:7zx86.exe:$prefix/ms/7zx86.exe " ..
+		"newc:7zx86.dll:$prefix/ms/7zx86.dll " ..
+		"newc:tool.7z:${prefix}/ms/tool.7z " ..
 		"newc:autounattend.xml:(http)/$autounattend " ..
 		"newc:boot.wim:$bootpath$setupwim;")
 		
@@ -161,40 +161,40 @@ end
 		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-		"loopback tool ${prefix}/ms/tool.gz; " ..
+		"loopback tool ${prefix}/ms/tool.7z; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"wimboot --gui " ..
-		"@:bootmgrfw.efi:(wimboot)/bootmgfw.efi " ..
+		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:BCD:(wimboot)/bcd " ..
 		"@:boot.sdi:(wimboot)/boot.sdi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
 		"@:null.cfg:${prefix}/ms/null.cfg " ..
-		"@:7zx64.exe:(tool)/x64/7z.exe " ..
-		"@:7zx64.dll:(tool)/x64/7z.dll " ..
-		"@:7zx86.exe:(tool)/x86/7z.exe " ..
-		"@:7zx86.dll:(tool)/x86/7z.dll " ..
-		"@:tool.gz:${prefix}/ms/tool.gz " ..
+		"@:7zx64.exe:$prefix/ms/7zx64.exe " ..
+		"@:7zx64.dll:$prefix/ms/7zx64.dll " ..
+		"@:7zx86.exe:$prefix/ms/7zx86.exe " ..
+		"@:7zx86.dll:$prefix/ms/7zx86.dll " ..
+		"@:tool.7z:${prefix}/ms/tool.7z " ..
     	"@:boot.wim:$bootpath$setupwim;")
 		
 	elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
 		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-		"loopback tool ${prefix}/ms/tool.gz; " ..
+		"loopback tool ${prefix}/ms/tool.7z; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"wimboot --gui " ..
-		"@:bootmgrfw.efi:(wimboot)/bootmgfw.efi " ..
+		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:BCD:(wimboot)/bcd " ..
 		"@:boot.sdi:(wimboot)/boot.sdi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
 		"@:null.cfg:${prefix}/ms/null.cfg " ..
-		"@:7zx64.exe:(tool)/x64/7z.exe " ..
-		"@:7zx64.dll:(tool)/x64/7z.dll " ..
-		"@:7zx86.exe:(tool)/x86/7z.exe " ..
-		"@:7zx86.dll:(tool)/x86/7z.dll " ..
-		"@:tool.gz:${prefix}/ms/tool.gz " ..
+		"@:7zx64.exe:$prefix/ms/7zx64.exe " ..
+		"@:7zx64.dll:$prefix/ms/7zx64.dll " ..
+		"@:7zx86.exe:$prefix/ms/7zx86.exe " ..
+		"@:7zx86.dll:$prefix/ms/7zx86.dll " ..
+		"@:tool.7z:${prefix}/ms/tool.7z " ..
 		"@:autounattend.xml:(http)/$autounattend " ..
 		"@:boot.wim:$bootpath$setupwim;")
 		

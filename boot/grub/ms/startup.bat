@@ -17,11 +17,17 @@ echo cleaning files....
 @del /s /q X:\*.bmp>nul
 echo done.
 echo extracting files ...
-%root%\7z%arch%.exe x tool.gz -o%root%\ -y
-@del /q %root%\tool.gz>nul
-%root%\7z%arch%.exe x tool -o%root%\ -y
-move %root%\%arch%\*.* %root%\ /y
-del /q %root%\tool
+%root%\7z%arch%.exe e -o%root% -aoa tool.7z %arch%\*
+::%root%\7z%arch%.exe x tool.gz -o%root%\ -y
+::%root%\7z%arch%.exe x tool -o%root%\ -y
+::move /y %root%\%arch%\*.* %root%\
+::ÖØÃüÃû
+::Setlocal Enabledelayedexpansion
+::set "str=%arch%"
+::for /f "delims=" %%i in ('dir /b %root% *.*') do (
+::set "var=%%i" & ren "%%i" "!var:%str%=!"
+::)
+Setlocal Disabledelayedexpansion
 
 echo done.
 echo starting services.....
@@ -117,7 +123,7 @@ if defined p2p (
 
 :httpiso
 echo []>%root%\xFsRedir.ini
-cls
+
 echo building config....
 setlocal enabledelayedexpansion
 (
@@ -148,7 +154,7 @@ if exist autounattend.xml (
   set xml=/Unattend:%root%\autounattend.xml
   echo Add parameter %xml%
 )
-cls
+
 
 
 :setupwin
@@ -216,7 +222,7 @@ echo net use smb....
 set 
 net use \\%serverip%\%smbpath% "%smbpass%" /user:%smbuser%
 echo []>%root%\xFsRedir.ini
-cls
+
 echo building config....
 setlocal enabledelayedexpansion
 (
