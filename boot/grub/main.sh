@@ -78,7 +78,7 @@ menuentry "3.捐助作者--bug反馈[选中查看]" --class cong {
    #background_image ${prefix}/themes/qq/qq.png; getkey; configfile ${prefix}/menu.sh;
 load_qq; configfile $prefix/qrcode.sh;
 }
-menuentry "4.当前设备--${net_default_server}[选中切换]" --class wim {
+menuentry "4.当前设备--${net_default_server}[选中切换]" --class hdd {
 echo 请输入IP或域名:; read net_default_server; export net_default_server; configfile $prefix/main.sh;
 }
 
