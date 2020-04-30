@@ -75,7 +75,7 @@ function bootmenu()
             command = "export func=mapiso; j=" .. j .. "; lua $prefix/open.lua;"   
             grub.add_icon_menu (icon,command, name)
         elseif setupwim ~= nil and setupiso ~=nil then
-            command = "export func=boot; j=" .. j .. "; lua $prefix/open.lua;" 
+            command = "export func=netsetup; j=" .. j .. "; lua $prefix/open.lua;" 
             grub.add_icon_menu (icon,command, name)
         end
 	end	

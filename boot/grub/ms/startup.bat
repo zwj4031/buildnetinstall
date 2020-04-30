@@ -196,7 +196,7 @@ aria2c http://%serverip%/app/winsetup/winp2p.7z -d %root% >nul
 if exist winp2p.7z %root%\7z%arch%.exe x winp2p.7z -o%root%\ -y
 ::taskkill /f /im verysync%arch%.exe
 if exist %root%\pecmd.exe %root%\pecmd.exe kill verysync%arch%.exe
-if exist start "" /min %root%\verysync%arch%.exe -home %root%\windata -gui-address :8886 -no-browser
+if exist %root%\verysync%arch%.exe start "" /min %root%\verysync%arch%.exe -home %root%\windata -gui-address :8886 -no-browser
 
 :startcheck
 if not exist %checkwim% (
