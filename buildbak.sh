@@ -11,21 +11,21 @@ then
 fi
 mkdir build
 cp -r boot build/
-mkdir build/boot/grub/x86_64-efi/
+mkdir build/boot/grubfm/x86_64-efi/
 modules=$(cat arch/x64-pxe/builtin.txt)
 modlist="$(cat arch/x64-pxe/optional.lst)"
 
 for modules in $modlist
 do
     echo "copying ${modules}.mod"
-    #cp grub/x86_64-efi/${modules}.mod build/boot/grub/x86_64-efi/
+    #cp grub/x86_64-efi/${modules}.mod build/boot/grubfm/x86_64-efi/
 done
 echo "x86_64-efi"
-#cp arch/x64-pxe/optional.lst build/boot/grub/insmod.lst
+#cp arch/x64-pxe/optional.lst build/boot/grubfm/insmod.lst
 cd build
 find ./boot | cpio -o -H newc > ../build/memdisk.cpio
 cd ..
-grub-mkimage -m build/memdisk.cpio -d grub/x86_64-efi -p "(memdisk)/boot/grub" -c arch/x64-pxe/config.cfg -o netinstall.efi -O x86_64-efi $modules
+grub-mkimage -m build/memdisk.cpio -d grub/x86_64-efi -p "(memdisk)/boot/grubfm" -c arch/x64-pxe/config.cfg -o netinstall.efi -O x86_64-efi $modules
 
 if [ -d "build" ]
 then
@@ -33,7 +33,7 @@ then
 fi
 mkdir build
 cp -r boot build/
-mkdir build/boot/grub/i386-pc/
+mkdir build/boot/grubfm/i386-pc/
 
 echo "i386-pc"
 builtin=$(cat arch/legacy-pxe/builtin.lst) 
@@ -41,9 +41,9 @@ modlist="$(cat arch/legacy-pxe/insmod.lst) $(cat arch/legacy-pxe/optional.lst)"
 for modules in $modlist
 do
     echo "copying ${modules}.mod"
-    cp grub/i386-pc/${modules}.mod build/boot/grub/i386-pc/
+    cp grub/i386-pc/${modules}.mod build/boot/grubfm/i386-pc/
 done
-cp arch/legacy-pxe/insmod.lst build/boot/grub/
+cp arch/legacy-pxe/insmod.lst build/boot/grubfm/
 cd build
 find ./boot | cpio -o -H newc > ../netinstallcore
 cd ..
