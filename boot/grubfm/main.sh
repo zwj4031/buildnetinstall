@@ -17,7 +17,7 @@
 unset grub_frame_speed;
 export theme=${prefix}/themes/slack/theme.txt;
 source $prefix/var.sh;
-
+source $prefix/global.sh;
 
 if [ "$grub_platform" = "efi" ];
 then

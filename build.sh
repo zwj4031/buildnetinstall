@@ -26,6 +26,7 @@ fi
 mkdir build
 cp -r boot build/
 mkdir build/boot/grubfm/i386-pc/
+cp lang/zh_CN/lang.sh build/boot/grubfm/
 
 echo "i386-pc"
 builtin=$(cat arch/legacy-pxe/builtin.lst) 
