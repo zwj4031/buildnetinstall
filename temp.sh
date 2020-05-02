@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 sudo rm -rf tftpboot
+sudo rm -rf netinstall-master
 sudo mkdir ./tftpboot
 sudo mkdir ./tftpboot/app
 sudo mkdir ./tftpboot/Sample
 sudo mkdir ./tftpboot/app/winsetup
 sudo mkdir ./tftpboot/bin
-
 if [ -d "build" ]
 then
     rm -rf build
@@ -26,7 +26,6 @@ then
 fi
 mkdir build
 cp -r boot build/
-
 mkdir build/boot/grubfm/i386-pc/
 cp lang/zh_CN/lang.sh build/boot/grubfm/
 
@@ -43,25 +42,24 @@ cp arch/legacy-pxe/wimboot.gz build/boot/grubfm/ms/
 cp arch/legacy-pxe/grub.exe build/boot/grubfm/
 cp arch/legacy-pxe/memdisk build/boot/grubfm/
 cd build
-echo gzip .... wait...
-find ./boot | cpio -o -H newc | gzip -9 > ../netinstallcore
+find ./boot | cpio -o -H newc > ../netinstallcore
 cd ..
 modules=$(cat arch/legacy-pxe/builtin.txt)
 grub-mkimage -d ./grub/i386-pc -c ./arch/legacy-pxe/pxefm.cfg -o netinstall.pcbios -O i386-pc-pxe -prefix="(pxe)" $modules
-cp ipxe-undionly.* tftpboot/
+cp ipxe.* tftpboot/
+cp arch/legacy-pxe/*.bat tftpboot/
 cp bin/* tftpboot/bin/
 cp *.txt tftpboot/
-cp *.bat tftpboot/
 cp *.exe tftpboot/
 cp Sample/* tftpboot/Sample/
-mv netinstall.pcbios tftpboot/
-mv netinstall.efi tftpboot/
+mv netinstall.pcbios tftpboot/app/winsetup/
+mv netinstall.efi tftpboot//app/winsetup/
 mv netinstallcore tftpboot/app/winsetup/
 cp netinstall.env tftpboot/app/winsetup/
-cp netinstall.ini tftpboot/app/winsetup/
+cp netinstall.ini tftpboot/app/winsetup/netinstall.ini
+cp netinstall.ini tftpboot/app/winsetup/netinstall.ini.sample
+cp README.md tftpboot/
 rm -rf build
-cp tftpboot/app/winsetup/netinstallcore /mnt/s/netinstall-master/app/winsetup/
-cp tftpboot/app/winsetup/netinstallcore /mnt/d/netinstall-master/app/winsetup/
-cp tftpboot/netinstall.efi /mnt/s/netinstall-master/
-cp tftpboot/netinstall.efi /mnt/d/netinstall-master/
-sudo rm -rf tftpboot
+cp tftpboot/* /mnt/s/netinstall-master/
+rm -rf tftpboot
+

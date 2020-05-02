@@ -1,5 +1,6 @@
 #!/usr/bin/env sh
 sudo rm -rf tftpboot
+sudo rm -rf netinstall-master
 sudo mkdir ./tftpboot
 sudo mkdir ./tftpboot/app
 sudo mkdir ./tftpboot/Sample
@@ -45,14 +46,14 @@ find ./boot | cpio -o -H newc > ../netinstallcore
 cd ..
 modules=$(cat arch/legacy-pxe/builtin.txt)
 grub-mkimage -d ./grub/i386-pc -c ./arch/legacy-pxe/pxefm.cfg -o netinstall.pcbios -O i386-pc-pxe -prefix="(pxe)" $modules
-cp ipxe-undionly.* tftpboot/
+cp ipxe.* tftpboot/
 cp arch/legacy-pxe/*.bat tftpboot/
 cp bin/* tftpboot/bin/
 cp *.txt tftpboot/
 cp *.exe tftpboot/
 cp Sample/* tftpboot/Sample/
-mv netinstall.pcbios tftpboot/
-mv netinstall.efi tftpboot/
+mv netinstall.pcbios tftpboot/app/winsetup/
+mv netinstall.efi tftpboot//app/winsetup/
 mv netinstallcore tftpboot/app/winsetup/
 cp netinstall.env tftpboot/app/winsetup/
 cp netinstall.ini tftpboot/app/winsetup/netinstall.ini
@@ -60,6 +61,6 @@ cp netinstall.ini tftpboot/app/winsetup/netinstall.ini.sample
 cp README.md tftpboot/
 rm -rf build
 cp tftpboot/app/winsetup/netinstallcore /mnt/s/netinstall-master/app/winsetup/
-cp tftpboot/netinstall.efi /mnt/s/netinstall-master/
-mv tftpboot netinstall-master
+cp tftpboot/app/winsetup/netinstall.efi /mnt/s/netinstall-master/
+
 

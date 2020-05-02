@@ -29,9 +29,9 @@ echo set setupwim^= /boot/boot.wim
 echo set setupiso^= %setupiso%
 echo set httptimeout^= 6
 echo set autounattend^=
-echo isset ${proxydhcp/dhcp-server} ^&^& chain http://^${proxydhcp/dhcp-server}/netinstall.${platform} proxydhcp=^${proxydhcp/dhcp-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} ^|^|
-echo chain http://^${next-server}/netinstall.${platform} proxydhcp=^${next-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} 
-) >%~dp0netinstall.ipxe
+echo isset ${proxydhcp/dhcp-server} ^&^& chain http://^${proxydhcp/dhcp-server}/app/winsetup/netinstall.${platform} proxydhcp=^${proxydhcp/dhcp-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} ^|^|
+echo chain http://^${next-server}/app/winsetup/netinstall.${platform} proxydhcp=^${next-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} 
+) >%~dp0app/winsetup/netinstall.ipxe
 (
 echo [0]
 echo name=微软原版安装
@@ -50,7 +50,7 @@ echo serverip=
 
 (
 echo [arch]
-echo 00007=ipxe-undionly.efi
+echo 00007=ipxe.efi
 echo [dhcp]
 echo start=1
 echo proxydhcp=1
@@ -58,8 +58,8 @@ echo httpd=0
 echo bind=1
 echo poolsize=998
 echo root=%~dp0
-echo filename=ipxe-undionly.bios
-echo altfilename=netinstall.ipxe
+echo filename=ipxe.bios
+echo altfilename=/app/winsetup/netinstall.ipxe
 )>%~dp0bin\config.INI
 start "" /min %~dp0bin\hfs.exe -c active=yes -a %~dp0bin\myhfs.ini
 for /f %%a in ('dir /b/a-d *.*') do start "" /min %~dp0bin\hfs.exe %%a

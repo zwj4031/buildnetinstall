@@ -5,7 +5,6 @@ taskkill /f /im pxesrv.exe
 taskkill /f /im hfs.exe
 cd /d %~dp0
 
-taskkill /f /im pxesrv.exe
 if not exist %~dp0boot mkdir %~dp0boot
 for /f %%i in ('dir /b %~dp0*.iso') do set setupiso=/%%i
 if not exist %~dp0boot\boot.wim %~dp0bin\7z.exe e -oboot -aoa  %1 sources/boot.wim
@@ -30,9 +29,9 @@ echo set setupwim^= /boot/boot.wim
 echo set setupiso^= %setupiso%
 echo set httptimeout^= 6
 echo set autounattend^=
-echo isset ${proxydhcp/dhcp-server} ^&^& chain http://^${proxydhcp/dhcp-server}/netinstall.${platform} proxydhcp=^${proxydhcp/dhcp-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} ^|^|
-echo chain http://^${next-server}/netinstall.${platform} proxydhcp=^${next-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} 
-) >%~dp0netinstall.ipxe
+echo isset ${proxydhcp/dhcp-server} ^&^& chain http://^${proxydhcp/dhcp-server}/app/winsetup/netinstall.${platform} proxydhcp=^${proxydhcp/dhcp-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} ^|^|
+echo chain http://^${next-server}/app/winsetup/netinstall.${platform} proxydhcp=^${next-server} setupwim=${setupwim=} setupiso=${setupiso=} httptimeout=${httptimeout=} autounattend=${autounattend=} 
+) >%~dp0app/winsetup/netinstall.ipxe
 (
 echo [0]
 echo name=微软原版安装
@@ -51,7 +50,7 @@ echo serverip=
 
 (
 echo [arch]
-echo 00007=ipxe-undionly.efi
+echo 00007=ipxe.efi
 echo [dhcp]
 echo start=1
 echo proxydhcp=1
@@ -59,12 +58,11 @@ echo httpd=0
 echo bind=1
 echo poolsize=998
 echo root=%~dp0
-echo filename=ipxe-undionly.bios
-echo altfilename=netinstall.ipxe
+echo filename=ipxe.bios
+echo altfilename=/app/winsetup/netinstall.ipxe
 )>%~dp0bin\config.INI
-taskkill /f /im hfs.exe
 start "" /min %~dp0bin\hfs.exe -c active=yes -a %~dp0bin\myhfs.ini
-for /f %%a in ('dir /b/a-d  %~dp0*.*') do start "" /min %~dp0bin\hfs.exe %%a
+for /f %%a in ('dir /b/a-d *.*') do start "" /min %~dp0bin\hfs.exe %%a
 start "" /min %~dp0bin\hfs.exe  %~dp0app imgs isos vhds pe wims wim boot
 start ""  %~dp0bin\pxesrv.exe
 exit
