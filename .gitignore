@@ -5,4 +5,5 @@ grub2-latest.tar.gz
 grubfmx64.efi
 /tftpboot
 /linux/initrd.xz
-netgrubfm-master
+/netgrubfm-master
+/netinstall-master
