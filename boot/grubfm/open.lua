@@ -30,7 +30,7 @@ function getini(num)
         if getvar == nil then
             getvar = ""
         else
-          --print(myvar .. "=" .. getvar)
+          print(myvar .. "=" .. getvar)
 		    grub.script ("unset " .. myvar .. "")
             grub.script ("export " .. myvar .. "=\"" .. getvar .. "\"; save_env -f ${prefix}/ms/null.cfg " .. myvar .. "")
         
