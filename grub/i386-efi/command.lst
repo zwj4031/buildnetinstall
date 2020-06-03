@@ -18,6 +18,7 @@
 *disable_wpbt: acpi
 *dp: dp
 *echo: echo
+*efi_connect_all: efiload
 *efiload: efiload
 *expr: expr
 *extract_syslinux_entries_configfile: syslinuxcfg
@@ -53,6 +54,8 @@
 *kopenbsd: bsd
 *list_env: loadenv
 *load_env: loadenv
+*load_vt_param: ventoy
+*load_vt_persist: ventoy
 *loopback: loopback
 *ls: ls
 *lsacpi: lsacpi
