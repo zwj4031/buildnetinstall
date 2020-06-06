@@ -30,7 +30,7 @@ function getini(num)
         if getvar == nil then
             getvar = ""
         else
-          print(myvar .. "=" .. getvar)
+        --  print(myvar .. "=" .. getvar)
 		    grub.script ("unset " .. myvar .. "")
             grub.script ("export " .. myvar .. "=\"" .. getvar .. "\"; save_env -f ${prefix}/ms/null.cfg " .. myvar .. "")
         
@@ -114,8 +114,9 @@ end
 			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:$bootpath$setupwim")
 		--netsetup	
 	elseif func == "netsetup" and platform == "pc" and autounattend == nil then
+	    getbootfile()
     	grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
-		"set enable_progress_indicator=1; echo loading......; " ..
+		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"linux16 (wimboot)/wimboot; " ..
@@ -134,8 +135,9 @@ end
 		"newc:boot.wim:$bootpath$setupwim;")
 	
 	elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
+	    getbootfile()
 	    grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
-		"set enable_progress_indicator=1; echo loading......; " ..
+		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"linux16 (wimboot)/wimboot; " ..
@@ -156,8 +158,9 @@ end
 		
 		--efinetsetup	
 	elseif func == "netsetup" and platform == "efi" and autounattend == nil then
+	    getbootfile()
 		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
-		"set enable_progress_indicator=1; echo loading......; " ..
+		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 	    "loopback netiso (http)/$setupiso; " ..
 		"wimboot " ..
@@ -175,8 +178,9 @@ end
     	"@:boot.wim:$bootpath$setupwim;")
 		
 	elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
+	    getbootfile()
 		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
-		"set enable_progress_indicator=1; echo loading......; " ..
+		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		"loopback netiso (http)/$setupiso; " ..
 		"wimboot " ..
