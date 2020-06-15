@@ -159,11 +159,11 @@ end
 		--efinetsetup	
 	elseif func == "netsetup" and platform == "efi" and autounattend == nil then
 	    getbootfile()
-		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
+		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 	    "loopback netiso (http)/$setupiso; " ..
-		"wimboot " ..
+		"wimboot --rawwim " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:BCD:(wimboot)/bcd " ..
 		"@:boot.sdi:(wimboot)/boot.sdi " ..
@@ -179,11 +179,11 @@ end
 		
 	elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
 	    getbootfile()
-		grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
+		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-		"wimboot " ..
+		"wimboot --rawwim " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:BCD:(wimboot)/bcd " ..
 		"@:boot.sdi:(wimboot)/boot.sdi " ..
