@@ -67,7 +67,7 @@ function getini(num)
     i=1
     i=i+1
     for i,myvar in ipairs(varlist) do
-            getvar = (grub.ini_get (ini, num, myvar))
+            getvar = (ini.get (ini, num, myvar))
         if getvar == nil then
             getvar = ""
         else
@@ -78,7 +78,7 @@ function getini(num)
         end
 		
     end
-	--grub.ini_free(ini)
+	--ini.free(ini)
 end
 
 function getbootfile()
@@ -96,10 +96,10 @@ end
         --view bootmenu
 function bootmenu()
     for j=1,10 do
-	    name= (grub.ini_get (ini, j, "name"))
-	    icon= (grub.ini_get (ini, j, "icon"))
-	    setupiso = (grub.ini_get (ini, j, "setupiso"))
-	    setupwim = (grub.ini_get (ini, j, "setupwim"))
+	    name= (ini.get (ini, j, "name"))
+	    icon= (ini.get (ini, j, "icon"))
+	    setupiso = (ini.get (ini, j, "setupiso"))
+	    setupwim = (ini.get (ini, j, "setupwim"))
         	            
 		if name == nil then
             name = (j) .. ".[空]"
@@ -125,7 +125,7 @@ end
         func = grub.getenv ("func")
 		platform = grub.getenv ("grub_platform")
  		autounattend = grub.getenv ("autounattend")
-        ini = grub.ini_load ("(http)/app/winsetup/netinstall.ini")
+        ini = ini.load ("(http)/app/winsetup/netinstall.ini")
 	   
         if func == nil then
         print("no command!!")

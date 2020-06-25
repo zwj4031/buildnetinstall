@@ -26,7 +26,7 @@ function getini(num)
     i=1
     i=i+1
     for i,myvar in ipairs(varlist) do
-             getvar = (grub.ini_get (ini, num, myvar))
+             getvar = (ini.get (netini, num, myvar))
         if getvar == nil then
             getvar = ""
         else
@@ -44,6 +44,9 @@ function getbootfile()
 		 j = grub.getenv ("j")
 		 getini(j)
 end
+function freemem()            
+	ini.free (netini)
+end 
 	 
 function previous()            
 		--add go-previous menu--   
@@ -55,10 +58,10 @@ end
         --view bootmenu
 function bootmenu()
     for j=1,10 do
-	    name= (grub.ini_get (ini, j, "name"))
-	    icon= (grub.ini_get (ini, j, "icon"))
-	    setupiso = (grub.ini_get (ini, j, "setupiso"))
-	    setupwim = (grub.ini_get (ini, j, "setupwim"))
+	    name= (ini.get (netini, j, "name"))
+	    icon= (ini.get (netini, j, "icon"))
+	    setupiso = (ini.get (netini, j, "setupiso"))
+	    setupwim = (ini.get (netini, j, "setupwim"))
         	            
 		if name == nil then
             name = (j) .. ".[空]"
@@ -84,7 +87,7 @@ end
         func = grub.getenv ("func")
 		platform = grub.getenv ("grub_platform")
  		autounattend = grub.getenv ("autounattend")
-        ini = grub.ini_load ("(http)/app/winsetup/netinstall.ini")
+        netini = ini.load ("(http)/app/winsetup/netinstall.ini")
 	   
         if func == nil then
         print("no command!!")
@@ -104,17 +107,20 @@ end
 		--wimboot
 	    elseif func == "wimboot" and platform == "efi" then
 		getbootfile()
+		freemem()  
 		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " ..
 		"wimboot @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:bcd:(wimboot)/bcd @:boot.sdi:(wimboot)/boot.sdi @:boot.wim:$bootpath$setupwim")
 		
 	elseif func == "wimboot" and platform == "pc" then
 		getbootfile()
+		freemem()  
 		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " .. 
 			"linux16 (wimboot)/wimboot; initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
 			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:$bootpath$setupwim")
 		--netsetup	
 	elseif func == "netsetup" and platform == "pc" and autounattend == nil then
 	    getbootfile()
+		freemem()  
     	grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -136,6 +142,7 @@ end
 	
 	elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
 	    getbootfile()
+		freemem()  
 	    grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
 		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -159,6 +166,7 @@ end
 		--efinetsetup	
 	elseif func == "netsetup" and platform == "efi" and autounattend == nil then
 	    getbootfile()
+		freemem()  
 		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -179,6 +187,7 @@ end
 		
 	elseif func == "netsetup" and platform == "efi" and autounattend ~= nil then
 	    getbootfile()
+		freemem()  
 		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
@@ -201,19 +210,23 @@ end
 		--map iso
 	elseif func == "mapiso" and platform == "efi" then
 		getbootfile()
+		freemem()  
 		print ("正在启动，请稍候……")
 		grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
 		
 	elseif func == "mapiso" and platform == "pc" then
 		getbootfile()
+		freemem()  
 		grub.script ("export grubfm_path=$setupiso; grubfm_file=$setupiso; configfile $prefix/rules/net/iso.sh;")
 			
 		--efiboot.sh
 	elseif func == "efiboot" then
+    	freemem()  
 		grub.script ("configfile $prefix/efiboot.sh")
 		
 		--legacyboot.sh
 	elseif func == "legacyboot" then
+	    freemem()  
 		grub.script ("configfile $prefix/legacyboot.sh")
 		end
 
