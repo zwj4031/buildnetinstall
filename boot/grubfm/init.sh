@@ -80,11 +80,11 @@ export theme_info=${prefix}/themes/slack/info.txt;
 export theme=${theme_std};
 
 search --set=user -f -q /boot/grubfm/config;
-if [ -n "${user}" ];
-then
-  grubfm_set -u "${user}";
-  source (${user})/boot/grubfm/config;
-fi;
+#if [ -n "${user}" ];
+#then
+#  grubfm_set -u "${user}";
+#  source (${user})/boot/grubfm/config;
+#fi;
 
 export grubfm_lang="${lang}";
 source ${prefix}/pxeinit.sh;
