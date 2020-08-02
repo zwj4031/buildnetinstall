@@ -206,7 +206,7 @@ end
 	elseif func == "mapiso" and platform == "pc" then
 		getbootfile()
 		freemem()  
-		grub.script ("export grubfm_path=$setupiso; grubfm_file=$setupiso; configfile $prefix/rules/net/iso.sh;")
+		grub.script ("export grubfm_path=$setupiso; grubfm_file=$setupiso; configfile $prefix/rules/net/netloop_test.sh;")
 			
 		--efiboot.sh
 	elseif func == "efiboot" then
