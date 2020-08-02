@@ -15,7 +15,7 @@ read: normal
 gcry_arcfour: crypto
 aout:
 vga_text:
-tftp: net priority_queue
+tftp: net
 newc: extcmd archelp
 minix2_be:
 afsplitter: crypto
@@ -124,9 +124,9 @@ nativedisk:
 minicmd:
 signature_test: functional_test procfs
 ata: scsi
+ntboot: map extcmd wimboot
 uuid: extcmd
 udf: fshelp
-ntboot: map extcmd procfs wimboot
 gzio: gcry_crc
 xnu_uuid: gcry_md5
 uhci: usb pci
@@ -141,7 +141,7 @@ part_bsd: part_msdos
 luks2: cryptodisk crypto json afsplitter pbkdf2
 cs5536: pci
 biosdisk:
-ventoy: map crypto udf extcmd normal procfs relocator gcry_sha1 iso9660
+ventoy: map crypto udf extcmd normal procfs wimboot relocator gcry_sha1 iso9660
 lsapm:
 gcry_sha512: crypto
 password: crypto normal
@@ -172,7 +172,7 @@ bitmap:
 vbe: video video_fb
 ntfs: fshelp
 multiboot: net linux vbe video boot relocator mmap lsapm
-wimboot: lua map extcmd
+wimboot: lua map extcmd normal procfs xzio
 gcry_crc: crypto
 png: bufio bitmap
 json:
@@ -221,7 +221,6 @@ tga: bufio bitmap
 reboot: relocator
 serial: extcmd terminfo
 zfscrypt: crypto pbkdf2 zfs extcmd gcry_sha1 gcry_rijndael
-libreg:
 usb_gamepad: usb
 dm_nv: diskfilter
 cmp_test: functional_test

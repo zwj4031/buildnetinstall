@@ -108,73 +108,64 @@ end
 	    elseif func == "wimboot" and platform == "efi" then
 		getbootfile()
 		freemem()  
-		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-		"wimboot @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:bcd:(wimboot)/bcd @:boot.sdi:(wimboot)/boot.sdi @:boot.wim:$bootpath$setupwim")
+		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+		"wimboot --rawwim --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
 		
 	elseif func == "wimboot" and platform == "pc" then
 		getbootfile()
 		freemem()  
-		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.gz; " .. 
-			"linux16 (wimboot)/wimboot; initrd16 newc:bootmgr:(wimboot)/bootmgr newc:bootmgr.exe:(wimboot)/bootmgr.exe newc:bcd:(wimboot)/bcd " ..
-			"newc:boot.sdi:(wimboot)/boot.sdi newc:boot.wim:$bootpath$setupwim")
+		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.xz; " .. 
+		"wimboot --rawwim --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
 		--netsetup	
 	elseif func == "netsetup" and platform == "pc" and autounattend == nil then
 	    getbootfile()
 		freemem()  
-    	grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
+    	grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-	    "loopback netiso (http)/$setupiso; " ..
-		"linux16 (wimboot)/wimboot; " ..
-        "initrd16 newc:bootmgr:(wimboot)/bootmgr " ..
-		"newc:bootmgr.exe:(wimboot)/bootmgr.exe " ..
-		"newc:BCD:(wimboot)/bcd " ..
-		"newc:boot.sdi:(wimboot)/boot.sdi " ..
-		"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
-		"newc:startup.bat:${prefix}/ms/startup.bat " ..
-		"newc:null.cfg:${prefix}/ms/null.cfg " ..
-    	"newc:7zx64.exe:$prefix/ms/7zx64.exe " ..
-		"newc:7zx64.dll:$prefix/ms/7zx64.dll " ..
-		"newc:7zx86.exe:$prefix/ms/7zx86.exe " ..
-		"newc:7zx86.dll:$prefix/ms/7zx86.dll " ..
-		"newc:tool.7z:${prefix}/ms/tool.7z " ..
-		"newc:boot.wim:$bootpath$setupwim;")
+	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+		"loopback netiso (http)/$setupiso; " ..
+		"wimboot --rawwim --testmode=no " ..
+		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
+		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
+		"@:startup.bat:${prefix}/ms/startup.bat " ..
+		"@:null.cfg:${prefix}/ms/null.cfg " ..
+		"@:7zx64.exe:$prefix/ms/7zx64.exe " ..
+		"@:7zx64.dll:$prefix/ms/7zx64.dll " ..
+		"@:7zx86.exe:$prefix/ms/7zx86.exe " ..
+		"@:7zx86.dll:$prefix/ms/7zx86.dll " ..
+		"@:tool.7z:${prefix}/ms/tool.7z " ..
+    	"@:boot.wim:$bootpath$setupwim;")
 	
 	elseif func == "netsetup" and platform == "pc" and autounattend ~= nil then
 	    getbootfile()
 		freemem()  
-	    grub.script ("set lang=en_US; set gfxmode=1920x1080,1366x768,1024x768,800x600,auto; terminal_output gfxterm; " ..
-		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-	    "loopback netiso (http)/$setupiso; " ..
-		"linux16 (wimboot)/wimboot; " ..
-        "initrd16 newc:bootmgr:(wimboot)/bootmgr " ..
-		"newc:bootmgr.exe:(wimboot)/bootmgr.exe " ..
-		"newc:BCD:(wimboot)/bcd " ..
-		"newc:boot.sdi:(wimboot)/boot.sdi " ..
-		"newc:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
-		"newc:startup.bat:${prefix}/ms/startup.bat " ..
-		"newc:null.cfg:${prefix}/ms/null.cfg " ..
-		"newc:7zx64.exe:$prefix/ms/7zx64.exe " ..
-		"newc:7zx64.dll:$prefix/ms/7zx64.dll " ..
-		"newc:7zx86.exe:$prefix/ms/7zx86.exe " ..
-		"newc:7zx86.dll:$prefix/ms/7zx86.dll " ..
-		"newc:tool.7z:${prefix}/ms/tool.7z " ..
-		"newc:autounattend.xml:(http)/$autounattend " ..
-		"newc:boot.wim:$bootpath$setupwim;")
+		grub.script ("set lang=en_US; " ..
+		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
+	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+		"loopback netiso (http)/$setupiso; " ..
+		"wimboot --rawwim --testmode=no " ..
+		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
+		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
+		"@:startup.bat:${prefix}/ms/startup.bat " ..
+		"@:null.cfg:${prefix}/ms/null.cfg " ..
+		"@:7zx64.exe:$prefix/ms/7zx64.exe " ..
+		"@:7zx64.dll:$prefix/ms/7zx64.dll " ..
+		"@:7zx86.exe:$prefix/ms/7zx86.exe " ..
+		"@:7zx86.dll:$prefix/ms/7zx86.dll " ..
+		"@:tool.7z:${prefix}/ms/tool.7z " ..
+		"@:autounattend.xml:(http)/$autounattend " ..
+		"@:boot.wim:$bootpath$setupwim;")
 		
 		--efinetsetup	
 	elseif func == "netsetup" and platform == "efi" and autounattend == nil then
 	    getbootfile()
 		freemem()  
 		grub.script ("set lang=en_US; " ..
-		"set enable_progress_indicator=1; echo loading......$bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
-	    "loopback netiso (http)/$setupiso; " ..
-		"wimboot --rawwim " ..
+		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
+	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+		"loopback netiso (http)/$setupiso; " ..
+		"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
-		"@:BCD:(wimboot)/bcd " ..
-		"@:boot.sdi:(wimboot)/boot.sdi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
 		"@:null.cfg:${prefix}/ms/null.cfg " ..
@@ -190,12 +181,10 @@ end
 		freemem()  
 		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.gz; " ..
+	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-		"wimboot --rawwim " ..
+		"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
-		"@:BCD:(wimboot)/bcd " ..
-		"@:boot.sdi:(wimboot)/boot.sdi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
 		"@:null.cfg:${prefix}/ms/null.cfg " ..
