@@ -16,11 +16,7 @@
 
 source ${prefix}/func.sh;
 
-if ! regexp '^hd.*' "${grubfm_device}";
-then
-  set grubfm_test=0;
-  return;
-fi;
+
 
 function iso_detect {
   unset icon;
@@ -59,10 +55,6 @@ function iso_detect {
     export distro="Windows";
     export src=win;
     return;
-  fi;
-  if [ -z "${grubfm_startpebat}" -o ! -f "${grubfm_startpebat}" ];
-  then
-    set grubfm_startpebat="(install)/silent.bat";
   fi;
   lua ${prefix}/rules/iso/winpe.lua;
   if [ ${wim_count} -ge 1 ];
@@ -185,14 +177,6 @@ function iso_detect {
     export src=proxmox;
     return;
   fi;
-  if [ -f (loop)/veket*.sfs ];
-  then
-    export linux_extra="grubfm_path=${grubfm_path}";
-    export icon=slackware;
-    export distro="Veket";
-    export src=veket;
-    return;
-  fi;
   if [ -f (loop)/ipfire*.media ];
   then
     export linux_extra="bootfromiso=${grubfm_path}";
@@ -297,9 +281,10 @@ function iso_detect {
     export src=antix;
     return;
   fi;
+  #debianok
   if [ -d (loop)/live ];
   then
-    export linux_extra="findiso=${grubfm_path}";
+    export linux_extra="findiso=${grubfm_path} fetch=http://$net_default_server${grubfm_path}";
     export icon=debian;
     export distro="Debian";
     export src=debian;
@@ -410,10 +395,8 @@ then
   menuentry $"Boot ${distro} From ISO" --class ${icon} {
     loopback -d loop;
     loopback loop "${grubfm_file}";
-    configfile ${prefix}/distro/${src}.sh;
+    configfile ${prefix}/rules/net/netdistro/${src}.sh;
   }
-  if [ "${src}" = "win" ];
-  then
-    source ${prefix}/rules/iso/buildpe.sh;
-  fi;
+ else
+configfile ${prefix}/rules/net/iso.sh 
 fi;

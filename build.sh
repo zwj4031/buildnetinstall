@@ -12,7 +12,7 @@ then
 fi
 mkdir build
 cp -r boot build/
-cp arch/x64-pxe/wimboot.xz build/boot/grubfm/ms/
+cp arch/x64-pxe/wimboot.xz build/boot/grubfm/
 echo "x86_64-efi"
 cd build
 find ./boot | cpio -o -H newc > ../build/memdisk.cpio
@@ -38,7 +38,7 @@ do
     cp grub/i386-pc/${modules}.mod build/boot/grubfm/i386-pc/
 done
 cp arch/legacy-pxe/insmod.lst build/boot/grubfm/
-cp arch/legacy-pxe/wimboot.xz build/boot/grubfm/ms/
+cp arch/legacy-pxe/wimboot.xz build/boot/grubfm/
 cp arch/legacy-pxe/grub.exe build/boot/grubfm/
 cp arch/legacy-pxe/memdisk build/boot/grubfm/
 cd build

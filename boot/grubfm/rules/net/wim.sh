@@ -1,6 +1,20 @@
+
+source ${prefix}/func.sh;
+
+function auto_swap {
+  if regexp '^hd[0-9a-zA-Z,]+$' ${grubfm_disk};
+  then
+    regexp -s devnum '^hd([0-9]+).*$' ${grubfm_disk};
+    if test "devnum" != "0";
+    then
+      drivemap -s (hd0) (${grubfm_disk});
+    fi;
+  fi;
+}
 set lang=en_US;
+
 terminal_output console;
-loopback wimboot ${prefix}/wimboot.gz;
+loopback wimboot ${prefix}/wimboot.xz;
 if [ "$grub_platform" = "efi" ];
 then
    set enable_progress_indicator=1;
@@ -17,19 +31,18 @@ then
   echo                 ;
   echo                 ;
   echo                 ;
-  linuxefi $prefix/wimboot;
-  initrdefi newc:bootmgfw.efi:(wimboot)/bootmgfw.efi \
-            newc:bcd:(wimboot)/bcd \
-            newc:boot.sdi:(wimboot)/boot.sdi \
-            newc:boot.wim:"${grubfm_file}";
+wimboot --rawwim --testmode=no \
+        @:bootmgfw.efi:(wimboot)/bootmgfw.efi \
+        @:boot.wim:"${grubfm_file}";
+
+    boot;
+	
 elif [ "$grub_platform" = "pc" ];
 then
   set enable_progress_indicator=1;
-  linux16 (wimboot)/wimboot;
-  initrd16 newc:bootmgr:(wimboot)/bootmgr \
-           newc:bootmgr.exe:(wimboot)/bootmgr.exe \
-           newc:bcd:(wimboot)/bcd \
-           newc:boot.sdi:(wimboot)/boot.sdi \
-           newc:boot.wim:"${grubfm_file}";
+ wimboot --rawwim --testmode=no \
+        @:bootmgfw.efi:(wimboot)/bootmgfw.efi \
+        @:boot.wim:"${grubfm_file}";
+
 fi;
 

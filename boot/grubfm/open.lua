@@ -108,13 +108,13 @@ end
 	    elseif func == "wimboot" and platform == "efi" then
 		getbootfile()
 		freemem()  
-		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/wimboot.xz; " ..
 		"wimboot --rawwim --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
 		
 	elseif func == "wimboot" and platform == "pc" then
 		getbootfile()
 		freemem()  
-		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/ms/wimboot.xz; " .. 
+		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/wimboot.xz; " .. 
 		"wimboot --rawwim --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
 		--netsetup	
 	elseif func == "netsetup" and platform == "pc" and autounattend == nil then
@@ -122,7 +122,7 @@ end
 		freemem()  
     	grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
 		"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
@@ -141,7 +141,7 @@ end
 		freemem()  
 		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
 		"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
@@ -162,7 +162,7 @@ end
 		freemem()  
 		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
 		"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
@@ -181,7 +181,7 @@ end
 		freemem()  
 		grub.script ("set lang=en_US; " ..
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
-	    "loopback wimboot ${prefix}/ms/wimboot.xz; " ..
+	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
 		"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
