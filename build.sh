@@ -39,6 +39,7 @@ do
 done
 cp arch/legacy-pxe/insmod.lst build/boot/grubfm/
 cp arch/legacy-pxe/wimboot.xz build/boot/grubfm/
+cp arch/legacy-pxe/tool.gz build/boot/grubfm/
 cp arch/legacy-pxe/grub.exe build/boot/grubfm/
 cp arch/legacy-pxe/memdisk build/boot/grubfm/
 cd build

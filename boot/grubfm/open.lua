@@ -200,13 +200,14 @@ end
 	elseif func == "mapiso" and platform == "efi" then
 		getbootfile()
 		freemem()  
-		print ("正在启动，请稍候……")
+		print ("正在启动iso，请稍候……")
 		grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
 		
 	elseif func == "mapiso" and platform == "pc" then
 		getbootfile()
 		freemem()  
-		grub.script ("export grubfm_path=$setupiso; grubfm_file=$setupiso; configfile $prefix/rules/net/netloop_test.sh;")
+		print ("正在启动iso，请稍候……")
+		grub.script ("set lang=en_US; echo loading iso....; export grubfm_path=$setupiso; export grubfm_file=(http)$setupiso; grubfm_open $grubfm_file;")
 			
 		--efiboot.sh
 	elseif func == "efiboot" then

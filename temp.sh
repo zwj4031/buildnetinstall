@@ -12,7 +12,7 @@ then
 fi
 mkdir build
 cp -r boot build/
-cp arch/x64-pxe/wimboot.xz build/boot/grubfm/ms/
+cp arch/x64-pxe/wimboot.xz build/boot/grubfm/
 echo "x86_64-efi"
 cd build
 find ./boot | cpio -o -H newc > ../build/memdisk.cpio
@@ -38,7 +38,8 @@ do
     cp grub/i386-pc/${modules}.mod build/boot/grubfm/i386-pc/
 done
 cp arch/legacy-pxe/insmod.lst build/boot/grubfm/
-cp arch/legacy-pxe/wimboot.xz build/boot/grubfm/ms/
+cp arch/legacy-pxe/wimboot.xz build/boot/grubfm/
+cp arch/legacy-pxe/tool.gz build/boot/grubfm/
 cp arch/legacy-pxe/grub.exe build/boot/grubfm/
 cp arch/legacy-pxe/memdisk build/boot/grubfm/
 cd build
@@ -55,10 +56,10 @@ cp Sample/* tftpboot/Sample/
 mv netinstall.pcbios tftpboot/app/winsetup/
 mv netinstall.efi tftpboot//app/winsetup/
 mv netinstallcore tftpboot/app/winsetup/
-sudo cp netinstall.env tftpboot/app/winsetup/
-sudo cp netinstall.ini tftpboot/app/winsetup/netinstall.ini
-sudo cp netinstall.ini tftpboot/app/winsetup/netinstall.ini.sample
-sudo cp README.md tftpboot/
+cp netinstall.env tftpboot/app/winsetup/
+cp netinstall.ini tftpboot/app/winsetup/netinstall.ini
+cp netinstall.ini tftpboot/app/winsetup/netinstall.ini.sample
+cp README.md tftpboot/
 rm -rf build
 sudo cp -r tftpboot/* /mnt/s/netinstall-master/
 rm -rf tftpboot

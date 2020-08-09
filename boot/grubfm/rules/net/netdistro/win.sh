@@ -35,7 +35,7 @@ wimboot @:bootmgfw.efi:(wimboot)/bootmgfw.efi \
 	    @:xfs_redir32.sys:(tool)/xfs_redir32.sys \
         @:xFsRedirx64.exe:(tool)/xFsRedirx64.exe \
         @:xFsRedirx86.exe:(tool)/xFsRedirx86.exe \
-        @:boot.wim:${setupwim};
+        @:boot.wim:{setupwim};
 	
 }
 
