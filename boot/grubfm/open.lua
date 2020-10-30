@@ -143,7 +143,7 @@ end
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-		"wimboot --rawwim --testmode=no " ..
+    	"wimboot --rawwim --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
