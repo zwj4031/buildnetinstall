@@ -109,13 +109,13 @@ end
 		getbootfile()
 		freemem()  
 		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/wimboot.xz; " ..
-		"wimboot --rawwim --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
+		"wimboot --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
 		
 	elseif func == "wimboot" and platform == "pc" then
 		getbootfile()
 		freemem()  
 		grub.script ("set lang=en_US; terminal_output console; set enable_progress_indicator=1; loopback wimboot ${prefix}/wimboot.xz; " .. 
-		"wimboot --rawwim --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
+		"wimboot --testmode=no @:bootmgfw.efi:(wimboot)/bootmgfw.efi @:boot.wim:$bootpath$setupwim")
 		--netsetup	
 	elseif func == "netsetup" and platform == "pc" and autounattend == nil then
 	    getbootfile()
@@ -124,7 +124,7 @@ end
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-		"wimboot --rawwim --testmode=no " ..
+		"wimboot --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
@@ -143,7 +143,7 @@ end
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-    	"wimboot --rawwim --testmode=no " ..
+    	"wimboot --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
@@ -164,7 +164,7 @@ end
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-		"wimboot --rawwim --testmode=no " ..
+		"wimboot --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
@@ -183,7 +183,7 @@ end
 		"set enable_progress_indicator=1; echo loading...... $bootpath$setupwim; " ..
 	    "loopback wimboot ${prefix}/wimboot.xz; " ..
 		"loopback netiso (http)/$setupiso; " ..
-		"wimboot --rawwim --testmode=no " ..
+		"wimboot --testmode=no " ..
 		"@:bootmgfw.efi:(wimboot)/bootmgfw.efi " ..
 		"@:winpeshl.ini:${prefix}/ms/winpeshl.ini " ..
 		"@:startup.bat:${prefix}/ms/startup.bat " ..
