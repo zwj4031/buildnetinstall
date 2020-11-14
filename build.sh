@@ -13,6 +13,7 @@ fi
 mkdir build
 cp -r boot build/
 cp arch/x64-pxe/wimboot.xz build/boot/grubfm/
+cp arch/legacy-pxe/tool.gz build/boot/grubfm/
 echo "x86_64-efi"
 cd build
 find ./boot | cpio -o -H newc > ../build/memdisk.cpio

@@ -201,7 +201,8 @@ end
 		getbootfile()
 		freemem()  
 		print ("正在启动iso，请稍候……")
-		grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
+		grub.script ("set lang=en_US; echo loading iso....; export grubfm_path=$setupiso; export grubfm_file=(http)$setupiso; grubfm_open $grubfm_file;")
+		--grub.script ("set lang=en_US; set enable_progress_indicator=1; echo loading iso....; map --mem (http)$setupiso")
 		
 	elseif func == "mapiso" and platform == "pc" then
 		getbootfile()
