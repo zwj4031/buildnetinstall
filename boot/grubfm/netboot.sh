@@ -20,7 +20,7 @@
 #set pager=0;
 #set debug=off;
 #UEFI LoadOptions
-source $prefix/global.sh;
+
 set pager=0;
 cat --set=modlist ${prefix}/insmod.lst;
 for module in ${modlist};
@@ -189,3 +189,4 @@ load_gfx;
 biosmenu;
      fi;
 
+source $prefix/global.sh;
